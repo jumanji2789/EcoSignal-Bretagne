@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoSignal Bretagne 🌿 | Accueil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        /* --- VARIABLES DE DESIGN --- */
+        :root {
+            --primary: #10b981;    /* Vert Émeraude */
+            --success: #059669;
+            --dark: #1e293b;
+            --light-bg: #f8fafc;
+            --border: #e2e8f0;
+            --gray-text: #64748b;
+            --footer-bg: #0f172a;  /* Bleu Nuit Moderne */
+            --facebook: #1877f2;
+            --instagram: #e1306c;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-bg);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .img-logo-circle {
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            background: white;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            background: white;
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1001;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .nav-logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-links { display: flex; gap: 15px; }
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: 0.3s;
+            border: 1px solid var(--border);
+            background: #f8fafc;
+            font-size: 0.9rem;
+        }
+        .nav-link:hover { background: #ecfdf5; color: var(--primary); }
+        .nav-link.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 85vh;
+            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)),
+                        url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") center/cover no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .header-badge {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--primary);
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-content { max-width: 850px; }
+        
+        .hero-title-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            background: linear-gradient(to bottom, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .hero-logo-img {
+            width: 110px;
+            height: 110px;
+            border: 4px solid rgba(255,255,255,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #cbd5e1;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- RÉSEAUX SOCIAUX --- */
+        .hero-social-area {
+            margin-bottom: 35px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .hero-social-text {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            margin-bottom: 15px;
+            max-width: 500px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-decoration: none;
+            transition: 0.4s;
+            font-size: 1.6rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
+        }
+        
+        .social-icon.fb:hover {
+            background: var(--facebook);
+            border-color: var(--facebook);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(24, 119, 242, 0.3);
+        }
+        
+        .social-icon.ig:hover {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+            border-color: transparent;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(225, 48, 108, 0.3);
+        }
+
+        /* --- BOUTONS --- */
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+            margin: 10px;
+            font-size: 1rem;
+        }
+        .btn-main { background: var(--primary); color: white; }
+        .btn-main:hover { background: var(--success); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4); }
+        .btn-alt { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px); }
+        .btn-alt:hover { background: rgba(255,255,255,0.2); transform: translateY(-3px); }
+
+        /* --- SECTIONS --- */
+        .section { padding: 90px 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        
+        h2 {
+            font-size: 2.2rem;
+            color: var(--dark);
+            text-align: center;
+            margin-bottom: 50px;
+            letter-spacing: -1px;
+            font-weight: 800;
+        }
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 5px;
+            background: var(--primary);
+            margin: 15px auto 0;
+            border-radius: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 25px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: 0.3s;
+            text-align: center;
+        }
+        .card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        .card .icon { font-size: 2.5rem; margin-bottom: 20px; display: block; }
+        .card h3 { color: var(--dark); margin-bottom: 15px; font-size: 1.3rem; }
+        .card p { color: var(--gray-text); font-size: 0.95rem; }
+
+        /* --- FOOTER MODERNE --- */
+        footer {
+            background: var(--footer-bg);
+            color: #f1f5f9;
+            padding: 60px 20px 30px 20px;
+            margin-top: 80px;
+            border-top: 4px solid var(--primary);
+        }
+        .footer-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+        .footer-logo { display: flex; align-items: center; gap: 12px; font-weight: 800; color: white; font-size: 1.4rem; margin-bottom: 15px; }
+        .footer-section h4 { color: var(--primary); margin-bottom: 15px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .footer-section p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
+        .footer-links { list-style: none; padding: 0; margin: 0; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { color: #94a3b8; text-decoration: none; transition: 0.3s; }
+        .footer-links a:hover { color: var(--primary); padding-left: 5px; }
+
+        .copyright { text-align: center; margin-top: 50px; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; color: #64748b; }
+
+        /* --- ADAPTATION MOBILE (MEDIA QUERIES) --- */
+        @media screen and (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
+            .nav-link {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+            .hero h1 {
+                font-size: 2.2rem; /* Titre plus petit sur mobile */
+            }
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            .btn {
+                display: block; /* Boutons l'un au-dessus de l'autre */
+                width: 100%;
+                margin: 10px 0;
+                box-sizing: border-box;
+            }
+            .hero-logo-img {
+                width: 80px;
+                height: 80px;
+            }
+            .section {
+                padding: 50px 20px;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-container">
+        <a href="index.html" class="nav-logo">
+            <img src="logo.png" alt="Logo" class="img-logo-circle" style="width:40px; height:40px;">
+            EcoSignal Bretagne
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link active">Accueil</a>
+            <a href="carte.html" class="nav-link">Carte</a>
+            <a href="signalement.html" class="nav-link">Signalement</a>
+            <a href="sensibilisation.html" class="nav-link">Sensibilisation</a>
+            <a href="forum.html" class="nav-link">Forum</a>
+            <a href="Moi et mon projet.html" class="nav-link">Moi et mon projet</a>
+        </div>
+    </div>
+</nav>
+
+<div class="hero">
+    <div class="hero-content">
+        <div class="header-badge">🌿 Projet Étudiant Licence Histoire</div>
+        <div class="hero-title-wrapper">
+            <img src="logo.png" alt="Logo EcoSignal" class="img-logo-circle hero-logo-img">
+            <h1>EcoSignal Bretagne</h1>
+        </div>
+        <p class="hero-subtitle">
+            Une initiative citoyenne née d'un travail de géographie pour analyser, cartographier et agir face aux problématiques environnementales de notre région.
+        </p>
+        
+        <div class="hero-social-area">
+            <p class="hero-social-text">Suivez le suivi du projet et les actions menées sur nos réseaux :</p>
+            <div class="social-links">
+                <a href="Https://www.facebook.com/share/18PU6Nctyr/" target="_blank" class="social-icon fb" title="Suivre sur Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://www.instagram.com/ecosignal.bretagne?igsh=MXJ4MXM2czliaWl5eg==" target="_blank" class="social-icon ig" title="Suivre sur Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <a href="carte.html" class="btn btn-main">🗺️ Explorer la carte</a>
+            <a href="signalement.html" class="btn btn-alt">📍 Faire un signalement</a>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="container">
+        <h2>Comment agir avec nous ?</h2>
+        <div class="grid">
+            <div class="card">
+                <span class="icon">📍</span>
+                <h3>Signaler</h3>
+                <p>Identifiez une décharge sauvage, une pollution ou un animal en danger et référencez-le en quelques clics.</p>
+            </div>
+            <div class="card">
+                <span class="icon">🗺️</span>
+                <h3>Localiser</h3>
+                <p>Visualisez l'état écologique de la Bretagne en temps réel grâce aux remontées de la communauté.</p>
+            </div>
+            <div class="card">
+                <span class="icon">🤝</span>
+                <h3>Mobiliser</h3>
+                <p>Partagez vos actions de nettoyage et vos photos "Avant/Après" sur notre forum pour inspirer les autres.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-section">
+            <div class="footer-logo" style="font-weight:800; font-size:1.4rem; color:white; margin-bottom:15px; display:flex; align-items:center; gap:12px;">
+                <img src="logo.png" alt="Logo" class="img-logo-circle" style="width:35px; height:35px; border-width:1px;">
+                EcoSignal
+            </div>
+            <p>EcoSignal Bretagne est une plateforme citoyenne pour la surveillance environnementale de notre région.</p>
+        </div>
+
+        <div class="footer-section">
+            <h4 style="color:white;">Contact local</h4>
+            <p>✉️ ecosignal.bretagne@gmail.com<br>📍 Saint-Brieuc, Côtes-d'Armor</p>
+        </div>
+
+        <div class="footer-section">
+            <h4 style="color:white;">Avertissement</h4>
+            <p>En cas d'urgence immédiate (pollution majeure, animal blessé), contactez les services de secours officiels.</p>
+        </div>
+    </div>
+    <div class="copyright">
+        © 2026 <strong>EcoSignal Bretagne</strong>. Projet étudiant indépendant. 🌍🌿
+    </div>
+</footer>
+
+</body>
+</html>

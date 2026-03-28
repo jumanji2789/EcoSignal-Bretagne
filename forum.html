@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum du Collectif - EcoSignal Bretagne 🌿</title>
+    <style>
+        :root {
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --dark: #1e293b;
+            --footer-bg: #0f172a;
+            --light-bg: #f8fafc;
+            --border: #e2e8f0;
+            --danger: #ef4444;
+            --gray: #64748b;
+        }
+
+        body { 
+            margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; 
+            background-color: var(--light-bg); color: var(--dark); line-height: 1.6;
+        }
+
+        .img-logo-circle { object-fit: cover; border-radius: 50%; border: 2px solid var(--primary); background: white; }
+
+        /* --- NAVIGATION --- */
+        nav { background: white; padding: 12px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
+        .nav-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .nav-logo { font-weight: 800; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .nav-links { display: flex; gap: 10px; }
+        .nav-link { text-decoration: none; color: var(--dark); font-weight: 600; padding: 8px 15px; border-radius: 10px; font-size: 0.9rem; transition: 0.3s; }
+        .nav-link:hover { color: var(--primary); background: #f1f5f9; }
+        .nav-link.active { background: var(--primary); color: white; }
+
+        /* --- HERO HEADER --- */
+        .hero-header {
+            height: 45vh;
+            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), 
+                        url("https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80") center/cover;
+            display: flex; align-items: center; justify-content: center; text-align: center; color: white;
+        }
+        .hero-header h1 { 
+            font-size: 3.5rem; margin: 15px 0 0; font-weight: 800;
+            background: linear-gradient(to bottom, #ffffff, #cbd5e1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* --- MAIN LAYOUT --- */
+        .main-layout {
+            max-width: 1100px; margin: -60px auto 60px; padding: 0 20px;
+            display: grid; grid-template-columns: 1fr 340px; gap: 30px; position: relative; z-index: 10;
+        }
+
+        /* --- FORMULAIRE --- */
+        .action-box { 
+            background: white; padding: 30px; border-radius: 25px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 1px solid var(--border);
+        }
+        input, select, textarea { 
+            width: 100%; padding: 14px; margin: 8px 0; border: 1px solid var(--border); 
+            border-radius: 12px; font-size: 1rem; background: var(--light-bg); font-family: inherit; box-sizing: border-box;
+        }
+        .btn-publier { 
+            width: 100%; padding: 16px; background: var(--primary); color: white; 
+            border: none; border-radius: 15px; font-weight: 800; cursor: pointer; transition: 0.3s;
+        }
+        .btn-publier:hover { background: var(--primary-dark); transform: translateY(-2px); }
+
+        /* --- FIL D'ACTUALITÉ --- */
+        .post { background: white; padding: 25px; border-radius: 20px; margin-top: 25px; border: 1px solid var(--border); position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .post-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .badge { padding: 5px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .badge-wait { background: #fef3c7; color: #92400e; }
+        .badge-done { background: #dcfce7; color: #166534; }
+        
+        .delete-btn { 
+            background: #fee2e2; border: none; cursor: pointer; font-size: 1rem; 
+            padding: 5px 10px; border-radius: 8px; color: var(--danger); 
+            transition: 0.3s; opacity: 0.5;
+        }
+        .delete-btn:hover { opacity: 1; transform: scale(1.1); background: #fecaca; }
+
+        .post-img { width: 100%; border-radius: 15px; margin-top: 15px; max-height: 400px; object-fit: cover; border: 1px solid var(--border); }
+
+        .btn-voir-plus {
+            display: none; width: 220px; margin: 40px auto; padding: 14px;
+            background: white; border: 2px solid var(--primary); color: var(--primary);
+            border-radius: 50px; font-weight: 800; cursor: pointer; transition: 0.3s;
+            text-align: center;
+        }
+        .btn-voir-plus:hover { background: var(--primary); color: white; transform: translateY(-2px); }
+
+        /* --- SIDEBAR --- */
+        .emergency-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .emergency-card { background: white; padding: 20px; border-radius: 20px; border-left: 6px solid var(--danger); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .phone-link { display: block; font-size: 1.2rem; font-weight: 800; color: var(--dark); text-decoration: none; margin: 5px 0; }
+
+        /* --- FOOTER --- */
+        footer { 
+            background: var(--footer-bg); color: white; padding: 60px 20px 30px; 
+            margin-top: 100px; border-top: 4px solid var(--primary); text-align: center;
+        }
+        .footer-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .copyright { margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-size: 0.9rem; }
+
+        /* --- RESPONSIVE / VERSION MOBILE --- */
+        @media (max-width: 900px) {
+            .nav-container { flex-direction: column; gap: 15px; text-align: center; }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 5px; }
+            .nav-link { font-size: 0.8rem; padding: 6px 10px; }
+            
+            .hero-header { height: 35vh; }
+            .hero-header h1 { font-size: 2.2rem; }
+            
+            .main-layout { 
+                grid-template-columns: 1fr; 
+                margin-top: -30px; 
+                gap: 20px;
+            }
+            
+            .action-box { padding: 20px; }
+            
+            .emergency-sidebar { order: -1; } /* Les numéros d'urgence passent au-dessus sur mobile */
+            
+            .post { padding: 15px; }
+            .post-header { margin-bottom: 8px; }
+            
+            footer { padding: 40px 15px 20px; }
+            .footer-grid { gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-container">
+        <a href="index.html" class="nav-logo">
+            <img src="logo.png" alt="Logo" class="img-logo-circle" width="35" height="35">
+            EcoSignal Bretagne
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Accueil</a>
+            <a href="carte.html" class="nav-link">Carte</a>
+            <a href="signalement.html" class="nav-link">Signalement</a>
+            <a href="sensibilisation.html" class="nav-link">Sensibilisation</a>
+            <a href="forum.html" class="nav-link active">Forum</a>
+            <a href="Moi et mon projet.html" class="nav-link">Moi et mon projet</a>
+        </div>
+    </div>
+</nav>
+
+<div class="hero-header">
+    <div class="hero-content">
+        <img src="logo.png" alt="Logo" class="img-logo-circle" width="80" height="80">
+        <h1>Forum du Collectif</h1>
+    </div>
+</div>
+
+<div class="main-layout">
+    <div class="forum-area">
+        <div class="action-box">
+            <h3 style="margin:0 0 10px 0">✅ Valider une action effectuée</h3>
+            <select id="select-signalement"></select>
+            <input type="text" id="auteur-nom" placeholder="Votre nom / Prénom">
+            <textarea id="action-desc" rows="3" placeholder="Description de l'action..."></textarea>
+            <p style="font-size: 0.8rem; color: var(--gray); margin: 5px 0;">Preuve photo :</p>
+            <input type="file" id="action-photo" accept="image/*">
+            <button class="btn-publier" onclick="publierAction()">Confirmer l'action accomplie</button>
+        </div>
+
+        <div id="liste-actions"></div>
+        <button id="loadMore" class="btn-voir-plus" onclick="voirPlus()">Voir les messages anciens</button>
+    </div>
+
+    <div class="emergency-sidebar">
+        <div class="emergency-card">
+            <h3 style="color:var(--danger); margin:0 0 10px 0">🚑 Urgences Bretagne</h3>
+            <span style="font-size:0.8rem; font-weight:700">Oiseaux blessés (LPO)</span>
+            <a href="tel:0296673977" class="phone-link">02 96 67 39 77</a>
+            <span style="font-size:0.8rem; font-weight:700">Mammifères Marins</span>
+            <a href="tel:0298487319" class="phone-link">02 98 48 73 19</a>
+        </div>
+        <div class="emergency-card" style="border-left-color: var(--primary);">
+            <h3 style="color:var(--primary); margin:0 0 10px 0">🌊 Pollution</h3>
+            <span style="font-size:0.8rem; font-weight:700">Vigipol (Lannion)</span>
+            <a href="tel:0296158490" class="phone-link">02 96 15 84 90</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-section">
+            <div class="footer-logo" style="font-weight:800; font-size:1.4rem; color:white; margin-bottom:15px; display:flex; align-items:center; gap:12px;">
+                <img src="logo.png" alt="Logo" class="img-logo-circle" style="width:35px; height:35px; border-width:1px;">
+                EcoSignal
+            </div>
+            <p>EcoSignal Bretagne est une plateforme citoyenne pour la surveillance environnementale de notre région.</p>
+        </div>
+
+        <div class="footer-section">
+            <h4 style="color:white;">Contact local</h4>
+            <p>✉️ ecosignal.bretagne@gmail.com<br>📍 Saint-Brieuc, Côtes-d'Armor</p>
+        </div>
+
+        <div class="footer-section">
+            <h4 style="color:white;">Avertissement</h4>
+            <p>En cas d'urgence immédiate (pollution majeure, animal blessé), contactez les services de secours officiels.</p>
+        </div>
+    </div>
+    <div class="copyright">
+        © 2026 <strong>EcoSignal Bretagne</strong>. Projet étudiant indépendant. 🌍🌿
+    </div>
+</footer>
+<script>
+    let visibleCount = 3; 
+    let toutLeFil = [];
+    const CODE_ADMIN = "admin123";
+
+    function initForum() {
+        const signalements = JSON.parse(localStorage.getItem('signalements')) || [];
+        const actions = JSON.parse(localStorage.getItem('actions_accomplies')) || [];
+        const select = document.getElementById('select-signalement');
+        
+        select.innerHTML = '<option value="">-- Sélectionnez le lieu de votre action --</option>';
+        signalements.forEach(s => {
+            const opt = document.createElement('option');
+            opt.value = s.id;
+            opt.textContent = `📍 ${s.lieu} (${s.type})`;
+            select.appendChild(opt);
+        });
+
+        toutLeFil = [
+            ...actions.map(a => ({...a, status: 'accompli', origin: 'actions'})),
+            ...signalements.map(s => ({
+                ...s, 
+                status: 'alerte', 
+                origin: 'alertes',
+                message: s.description || "Besoin d'aide sur ce site."
+            }))
+        ];
+
+        renderFil();
+    }
+
+    function renderFil() {
+        const list = document.getElementById('liste-actions');
+        const btnLoadMore = document.getElementById('loadMore');
+        const aAfficher = toutLeFil.slice(0, visibleCount);
+
+        if(toutLeFil.length === 0) {
+            list.innerHTML = '<p style="text-align:center; color:gray; margin-top:40px;">Aucun message pour le moment.</p>';
+            btnLoadMore.style.display = 'none';
+            return;
+        }
+
+        list.innerHTML = aAfficher.map((m) => `
+            <div class="post">
+                <div class="post-header">
+                    <span class="badge ${m.status === 'accompli' ? 'badge-done' : 'badge-wait'}">
+                        ${m.status === 'accompli' ? '✅ Action Accomplie' : '⚠️ Alerte en cours'}
+                    </span>
+                    <button class="delete-btn" onclick="supprimerPost('${m.id}', '${m.origin}')" title="Supprimer">🗑️</button>
+                </div>
+                <div style="font-weight:800; font-size:1.1rem; color:var(--primary-dark)">📍 ${m.lieu}</div>
+                <div style="font-size:0.85rem; color:var(--gray); margin-top:-5px; margin-bottom:10px;">🏠 ${m.adresse || 'Adresse non spécifiée'}</div>
+                
+                <div style="margin:10px 0; color:#334155">
+                    ${m.status === 'accompli' ? `<strong>${m.auteur} :</strong> ` : ''} ${m.message}
+                </div>
+                ${m.photo ? `<img src="${m.photo}" class="post-img">` : ''}
+                <div style="font-size:0.75rem; color:gray; margin-top:10px">Posté le ${m.date || 'Récemment'}</div>
+            </div>
+        `).join('');
+
+        btnLoadMore.style.display = toutLeFil.length > visibleCount ? 'block' : 'none';
+    }
+
+    function voirPlus() {
+        visibleCount += 3;
+        renderFil();
+    }
+
+    function supprimerPost(id, origin) {
+        let estConnecte = sessionStorage.getItem('adminSession') === 'true';
+
+        if (!estConnecte) {
+            const saisie = prompt("Entrez le code administrateur :");
+            if (saisie === CODE_ADMIN) {
+                sessionStorage.setItem('adminSession', 'true');
+                estConnecte = true;
+            } else if (saisie !== null) {
+                alert("Code incorrect !");
+                return;
+            } else { return; }
+        }
+
+        if (estConnecte) {
+            if(!confirm("Supprimer définitivement ?")) return;
+
+            if(origin === 'actions') {
+                let act = JSON.parse(localStorage.getItem('actions_accomplies')) || [];
+                localStorage.setItem('actions_accomplies', JSON.stringify(act.filter(a => a.id != id)));
+            } else {
+                let sig = JSON.parse(localStorage.getItem('signalements')) || [];
+                localStorage.setItem('signalements', JSON.stringify(sig.filter(s => s.id != id)));
+            }
+            initForum();
+        }
+    }
+
+    function publierAction() {
+        const select = document.getElementById('select-signalement');
+        const auteur = document.getElementById('auteur-nom').value;
+        const texte = document.getElementById('action-desc').value;
+        const photoFile = document.getElementById('action-photo').files[0];
+
+        if(!select.value || !auteur || !photoFile) return alert("Champs manquants !");
+
+        let signalements = JSON.parse(localStorage.getItem('signalements')) || [];
+        const source = signalements.find(s => s.id == select.value);
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const nouvelleAction = {
+                id: Date.now().toString(),
+                lieu: source ? source.lieu : "Inconnu",
+                adresse: source ? source.adresse : "Non spécifiée",
+                auteur: auteur,
+                message: texte,
+                photo: e.target.result,
+                date: new Date().toLocaleDateString('fr-FR'),
+                accompli: true
+            };
+
+            let actions = JSON.parse(localStorage.getItem('actions_accomplies')) || [];
+            actions.unshift(nouvelleAction);
+            localStorage.setItem('actions_accomplies', JSON.stringify(actions));
+            localStorage.setItem('signalements', JSON.stringify(signalements.filter(s => s.id != select.value)));
+            location.reload();
+        };
+        reader.readAsDataURL(photoFile);
+    }
+
+    window.onload = initForum;
+</script>
+</body>
+</html>

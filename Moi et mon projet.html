@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moi & Mon Projet | EcoSignal Bretagne 🌿</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        /* --- VARIABLES DE DESIGN --- */
+        :root {
+            --primary: #10b981;
+            --success: #059669;
+            --dark: #1e293b;
+            --light-bg: #f8fafc;
+            --border: #e2e8f0;
+            --gray-text: #64748b;
+            --footer-bg: #0f172a;
+        }
+
+        body { 
+            margin: 0; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: var(--light-bg); 
+            color: var(--dark); 
+            line-height: 1.6; 
+        }
+
+        .img-logo-circle { 
+            object-fit: cover; 
+            border-radius: 50%; 
+            border: 2px solid var(--primary); 
+            background: white;
+        }
+
+        /* --- NAVIGATION --- */
+        nav { 
+            background: white; 
+            padding: 10px 0; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1001; 
+            border-bottom: 1px solid var(--border); 
+        }
+        .nav-container { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 0 20px; 
+        }
+        .nav-logo { 
+            font-size: 1.3rem; 
+            font-weight: 800; 
+            color: var(--primary); 
+            text-decoration: none; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
+        .nav-links { display: flex; gap: 15px; }
+        .nav-link { 
+            text-decoration: none; 
+            color: var(--dark); 
+            font-weight: 600; 
+            padding: 8px 12px; 
+            border-radius: 8px; 
+            transition: 0.3s; 
+            border: 1px solid var(--border); 
+            background: #f8fafc; 
+            font-size: 0.9rem; 
+        }
+        .nav-link:hover { background: #ecfdf5; color: var(--primary); }
+        .nav-link.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 80px 20px;
+            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), 
+                        url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") center/cover no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .header-badge {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--primary);
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-title-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 { 
+            font-size: 3.5rem; 
+            margin: 0; 
+            letter-spacing: -2px; 
+            line-height: 1.1;
+            background: linear-gradient(to bottom, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .hero-logo-img {
+            width: 110px;
+            height: 110px;
+            border: 4px solid rgba(255,255,255,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* --- CONTENU --- */
+        .section { padding: 60px 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .profile-card {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            margin-top: -60px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            background: #e2e8f0;
+            object-fit: cover;
+        }
+
+        .bio-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+            margin: 30px 0;
+            padding: 20px;
+            background: var(--light-bg);
+            border-radius: 20px;
+        }
+
+        .info-item { text-align: center; }
+        .info-item i { color: var(--primary); font-size: 1.5rem; margin-bottom: 10px; display: block; }
+        .info-item strong { display: block; color: var(--dark); }
+        .info-item span { color: var(--gray-text); font-size: 0.9rem; }
+
+        .project-details { margin-top: 50px; width: 100%; }
+        h2 { font-size: 2rem; color: var(--dark); margin-bottom: 30px; position: relative; padding-bottom: 10px; text-align: left; }
+        h2::after { content: ''; position: absolute; bottom: 0; left: 0; width: 50px; height: 4px; background: var(--primary); border-radius: 2px; }
+
+        .text-block { color: var(--dark); font-size: 1.1rem; line-height: 1.8; text-align: justify; margin-bottom: 40px; }
+        .highlight { color: var(--primary); font-weight: 700; }
+
+        /* --- FOOTER --- */
+        footer { background: var(--footer-bg); color: #f1f5f9; padding: 60px 20px 30px 20px; margin-top: 80px; border-top: 4px solid var(--primary); }
+        .footer-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+        .footer-logo { display: flex; align-items: center; gap: 12px; font-weight: 800; color: white; font-size: 1.4rem; margin-bottom: 15px; }
+        .footer-section h4 { color: var(--primary); margin-bottom: 15px; font-size: 1.1rem; text-transform: uppercase; }
+        .footer-section p { color: #94a3b8; font-size: 0.95rem; }
+        .copyright { text-align: center; margin-top: 50px; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; color: #64748b; }
+
+        /* --- VERSION MOBILE (BOULEVERSEMENT) --- */
+        @media (max-width: 768px) {
+            .nav-container { flex-direction: column; gap: 15px; }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 8px; }
+            .nav-link { font-size: 0.8rem; padding: 6px 10px; }
+
+            .hero { padding: 40px 15px; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero-logo-img { width: 80px; height: 80px; }
+
+            .profile-card { padding: 25px 15px; margin-top: -40px; border-radius: 20px; }
+            .profile-img { width: 120px; height: 120px; }
+
+            .bio-info { grid-template-columns: 1fr; gap: 15px; }
+            
+            h2 { font-size: 1.5rem; text-align: center; }
+            h2::after { left: 50%; transform: translateX(-50%); }
+
+            .text-block { font-size: 1rem; text-align: left; }
+            
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+            .footer-logo { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-container">
+        <a href="index.html" class="nav-logo">
+            <img src="logo.png" alt="Logo" class="img-logo-circle" style="width:40px; height:40px;">
+            EcoSignal Bretagne
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Accueil</a>
+            <a href="carte.html" class="nav-link">Carte</a>
+            <a href="signalement.html" class="nav-link">Signalement</a>
+            <a href="sensibilisation.html" class="nav-link">Sensibilisation</a>
+            <a href="forum.html" class="nav-link">Forum</a>
+            <a href="Moi et mon projet.html" class="nav-link active">Moi et mon projet</a>
+        </div>
+    </div>
+</nav>
+
+<div class="hero">
+    <div class="hero-content">
+        <div class="header-badge">🌿 Présentation de l'auteure</div>
+        <div class="hero-title-wrapper">
+            <img src="logo.png" alt="Logo EcoSignal" class="img-logo-circle hero-logo-img">
+            <h1>Moi & Mon Projet</h1>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="container">
+        <div class="profile-card">
+            <img src="ma photo.jpg" alt="Portrait" class="profile-img"> 
+            <h3>Étudiante & Future Enseignante</h3>
+            <p style="color: var(--gray-text); max-width: 600px;">Passionnée par l'aménagement du territoire et la transmission des savoirs.</p>
+            
+            <div class="bio-info">
+                <div class="info-item">
+                    <i class="fas fa-university"></i>
+                    <strong>Formation</strong>
+                    <span>L2 Histoire - Campus Mazier</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <strong>Spécialité</strong>
+                    <span>Mineure Géographie</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-user-graduate"></i>
+                    <strong>Objectif</strong>
+                    <span>Professeure d'Histoire-Géo</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-birthday-cake"></i>
+                    <strong>Âge</strong>
+                    <span>19 ans</span>
+                </div>
+            </div>
+
+            <div class="project-details">
+                <h2>Le Projet EcoSignal Bretagne</h2>
+                <div class="text-block">
+                    <p>
+                        Actuellement âgée de <span class="highlight">19 ans</span> et étudiante en <span class="highlight">deuxième année de licence d'histoire au campus Mazier à Saint-Brieuc</span>, j'ai choisi de suivre une mineure en géographie. C'est dans ce cadre académique qu'est né **EcoSignal Bretagne**. 
+                    </p>
+                    <p>
+                        Mon projet dépasse le simple exercice universitaire. En tant que future <span class="highlight">professeure d'histoire-géographie dans le secondaire</span>, je suis convaincue que la compréhension de notre environnement proche est la première étape de la citoyenneté. EcoSignal a été conçu pour répondre à une problématique concrète de notre région : la gestion des atteintes à l'environnement.
+                    </p>
+                    <p>
+                        <strong>Pourquoi ce projet ?</strong> L'idée est d'utiliser les outils cartographiques modernes pour créer un pont entre les citoyens et la préservation du territoire breton. En croisant l'analyse historique (comprendre l'évolution de nos paysages) et la rigueur géographique (analyser les flux de pollution et les zones de tension), EcoSignal permet à chacune et chacun de devenir un acteur du changement.
+                    </p>
+                    <p>
+                        À travers ce site, je souhaite démontrer que les sciences humaines ne sont pas seulement théoriques : elles servent à construire des outils pratiques pour <span class="highlight">protéger notre patrimoine naturel</span> et sensibiliser les jeunes générations, que j'espère accompagner demain dans mes futures classes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-section">
+            <div class="footer-logo" style="font-weight:800; font-size:1.4rem; color:white; margin-bottom:15px; display:flex; align-items:center; gap:12px;">
+                <img src="logo.png" alt="Logo" class="img-logo-circle" style="width:35px; height:35px; border-width:1px;">
+                EcoSignal
+            </div>
+            <p>EcoSignal Bretagne est une plateforme citoyenne pour la surveillance environnementale de notre région.</p>
+        </div>
+
+        <div class="footer-section">
+            <h4 style="color:white;">Contact local</h4>
+            <p>✉️ ecosignal.bretagne@gmail.com<br>📍 Saint-Brieuc, Côtes-d'Armor</p>
+        </div>
+
+        <div class="footer-section">
+            <h4 style="color:white;">Avertissement</h4>
+            <p>En cas d'urgence immédiate (pollution majeure, animal blessé), contactez les services de secours officiels.</p>
+        </div>
+    </div>
+    <div class="copyright">
+        © 2026 <strong>EcoSignal Bretagne</strong>. Projet étudiant indépendant. 🌍🌿
+    </div>
+</footer>
+
+</body>
+</html>
