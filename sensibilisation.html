@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sensibilisation - EcoSignal Bretagne 🌿</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         /* --- VARIABLES DE DESIGN --- */
         :root {
@@ -47,7 +46,7 @@
             padding: 0 20px; 
         }
         .nav-logo { 
-            font-size: 1.1rem; 
+            font-size: 1.3rem; 
             font-weight: 800; 
             color: var(--primary); 
             text-decoration: none; 
@@ -55,7 +54,7 @@
             align-items: center; 
             gap: 10px; 
         }
-        .nav-links { display: flex; gap: 10px; }
+        .nav-links { display: flex; gap: 15px; }
         .nav-link { 
             text-decoration: none; 
             color: var(--dark); 
@@ -65,35 +64,35 @@
             transition: 0.3s; 
             border: 1px solid var(--border); 
             background: #f8fafc; 
-            font-size: 0.85rem; 
+            font-size: 0.9rem; 
         }
         .nav-link:hover { background: #ecfdf5; color: var(--primary); }
         .nav-link.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* --- HERO HEADER CORRIGÉ --- */
+        /* --- HERO HEADER CORRIGÉ POUR ÉVITER LE CHEVAUCHEMENT --- */
         .hero-header {
-            min-height: 65vh; /* Utilisation de min-height pour s'adapter au contenu */
-            background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)), 
+            min-height: 60vh; /* Utilisation de min-height pour s'étendre si besoin */
+            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), 
                         url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") center/cover no-repeat;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
             color: white;
-            padding: 40px 20px; /* Plus d'espace interne */
+            padding: 60px 20px; /* Plus d'espace interne pour respirer */
+            box-sizing: border-box;
         }
 
         .header-badge {
-            background: rgba(16, 185, 129, 0.25);
+            background: rgba(16, 185, 129, 0.2);
             color: var(--primary);
             display: inline-block;
-            padding: 8px 20px;
+            padding: 6px 16px;
             border-radius: 50px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 700;
-            margin-top: 20px; /* Espace pour ne pas être collé au menu */
-            margin-bottom: 25px;
-            border: 1px solid rgba(16, 185, 129, 0.4);
+            margin-bottom: 20px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -102,28 +101,26 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
 
         .hero-header h1 { 
-            font-size: clamp(2rem, 8vw, 3.5rem); 
+            font-size: clamp(2rem, 8vw, 3.2rem); 
             margin: 0; 
             font-weight: 800;
-            line-height: 1.2;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            background: linear-gradient(to bottom, #ffffff, #cbd5e1);
+            background: linear-gradient(to bottom, #ffffff, #94a3b8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .hero-subtitle {
-            margin-top: 20px;
+            max-width: 700px;
+            margin: 20px auto 0;
             font-size: 1.1rem;
             color: #cbd5e1;
-            max-width: 600px;
         }
 
-        /* --- CONTENU --- */
+        /* --- GRILLE DE CONTENU --- */
         .container { 
             max-width: 1100px; 
             margin: -40px auto 30px; 
@@ -136,34 +133,34 @@
             color: var(--dark);
             background: white;
             display: inline-block;
-            padding: 12px 25px;
+            padding: 12px 30px;
             border-radius: 50px;
-            font-size: 1.2rem;
-            margin-top: 40px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            font-size: 1.4rem;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
             border-left: 6px solid var(--primary);
         }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            gap: 30px;
         }
 
         .card {
             background: white;
-            border-radius: 20px;
+            border-radius: 25px;
             overflow: hidden;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            transition: 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 1px solid var(--border);
         }
 
-        .card:hover { transform: translateY(-8px); border-color: var(--primary); }
-        .card img { width: 100%; height: 200px; object-fit: cover; }
-        .card h3 { text-align: center; padding: 15px; margin: 0; color: var(--dark); font-size: 1.1rem; }
+        .card:hover { transform: translateY(-12px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15); }
+        .card img { width: 100%; height: 220px; object-fit: cover; }
+        .card h3 { text-align: center; padding: 20px; margin: 0; color: var(--dark); font-weight: 800; }
 
         /* --- MODALS --- */
         .modal {
@@ -171,7 +168,7 @@
             position: fixed;
             top:0; left:0; width:100%; height:100%;
             background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
             justify-content: center;
             align-items: center;
             z-index: 2000;
@@ -180,23 +177,26 @@
 
         .modal-content {
             background: white;
-            padding: 30px;
-            border-radius: 25px;
-            max-width: 700px;
+            padding: 40px;
+            border-radius: 30px;
+            max-width: 800px;
             width: 100%;
-            max-height: 85vh;
+            max-height: 90vh;
             overflow-y: auto;
+            position: relative;
         }
 
         .modal-header h2 { 
-            border: none; font-size: 1.8rem; color: var(--primary); 
-            background: transparent; padding: 0; margin-bottom: 20px; box-shadow: none; 
+            border: none; font-size: 2.4rem; color: var(--primary); 
+            background: transparent; padding: 0; margin-bottom: 30px; box-shadow: none; 
             text-align: center; width: 100%;
         }
         
-        .info-section { margin-bottom: 20px; }
-        .info-section h4 { color: var(--dark); margin-bottom: 8px; }
-        .tag { padding: 4px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; margin-right: 8px; }
+        .info-section { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #f1f5f9; }
+        .info-section:last-child { border: none; }
+        .info-section h4 { color: var(--dark); margin: 0 0 12px 0; font-size: 1.3rem; }
+
+        .tag { padding: 5px 15px; border-radius: 8px; font-size: 0.9rem; font-weight: 800; margin-right: 10px; display: inline-block; margin-bottom: 10px; }
         .tag-pres { background: #dcfce7; color: var(--success); }
         .tag-menace { background: #fee2e2; color: var(--danger); }
         .tag-action { background: #e0f2fe; color: #0284c7; }
@@ -204,54 +204,54 @@
         .close-btn {
             display: block;
             margin: 20px auto 0;
-            padding: 12px 40px;
+            padding: 15px 50px;
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: 15px;
             cursor: pointer;
-            font-weight: 700;
+            font-weight: 800;
+            transition: 0.3s;
         }
+        .close-btn:hover { background: var(--success); transform: scale(1.05); }
 
         /* --- FOOTER --- */
         footer { 
             background: var(--footer-bg); 
             color: #f1f5f9; 
-            padding: 50px 20px 30px; 
-            margin-top: 80px; 
+            padding: 60px 20px 30px; 
+            margin-top: 100px; 
             border-top: 4px solid var(--primary); 
         }
-        .footer-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; }
-        .copyright { text-align: center; margin-top: 30px; font-size: 0.8rem; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
+        .footer-grid { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 40px; 
+        }
+        .copyright { 
+            margin-top: 40px; 
+            padding-top: 20px; 
+            border-top: 1px solid rgba(255,255,255,0.1); 
+            color: #94a3b8; 
+            font-size: 0.9rem; 
+            text-align: center; 
+        }
 
-        /* --- MOBILE ORDONNÉ CORRIGÉ 📱 --- */
+        /* --- RESPONSIVE MOBILE --- */
         @media (max-width: 768px) {
-            .nav-container { flex-direction: column; padding: 10px; gap: 10px; }
-            .nav-logo { font-size: 1rem; }
-            
-            .nav-links {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr); /* Grille ordonnée */
-                gap: 8px;
-                width: 100%;
-            }
-            .nav-link { 
-                font-size: 0.75rem; 
-                padding: 10px 5px; 
-                text-align: center; 
-                display: flex; 
-                align-items: center; 
-                justify-content: center;
-                height: 40px;
-            }
+            .nav-container { flex-direction: column; gap: 15px; }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 8px; }
+            .nav-link { font-size: 0.8rem; padding: 6px 10px; }
 
-            .hero-header { min-height: 55vh; padding-top: 30px; }
+            .hero-header { padding-top: 100px; min-height: 50vh; }
             .hero-header h1 { font-size: 1.8rem; }
-            .header-badge { font-size: 0.7rem; margin-top: 10px; }
-            .hero-subtitle { font-size: 0.9rem; }
             
             .container { margin-top: -20px; }
-            h2 { font-size: 1rem; width: 100%; box-sizing: border-box; text-align: center; }
+            h2 { font-size: 1.1rem; padding: 10px 20px; width: 90%; text-align: center; }
+
+            .grid { grid-template-columns: 1fr; gap: 20px; }
         }
     </style>
 </head>
@@ -261,7 +261,7 @@
 <nav>
     <div class="nav-container">
         <a href="index.html" class="nav-logo">
-            <img src="logo.png" alt="Logo" class="img-logo-circle" style="width:35px; height:35px;">
+            <img src="logo.png" alt="Logo" class="img-logo-circle" style="width:40px; height:40px;">
             EcoSignal Bretagne
         </a>
         <div class="nav-links">
@@ -270,7 +270,7 @@
             <a href="signalement.html" class="nav-link">Signalement</a>
             <a href="sensibilisation.html" class="nav-link active">Sensibilisation</a>
             <a href="forum.html" class="nav-link">Forum</a>
-            <a href="Moi et mon projet.html" class="nav-link">Moi</a>
+            <a href="Moi et mon projet.html" class="nav-link">Moi et mon projet</a>
         </div>
     </div>
 </nav>
@@ -279,14 +279,17 @@
     <div class="hero-content">
         <div class="header-badge">🌿 Protéger notre héritage</div>
         <div class="hero-title-wrapper">
-            <img src="logo.png" alt="Logo" class="img-logo-circle" style="width:80px; height:80px; border-width:3px;">
+            <img src="logo.png" alt="Logo" class="img-logo-circle" style="width:100px; height:100px; border-width:4px;">
             <h1>Éduquer pour Protéger</h1>
         </div>
-        <p class="hero-subtitle">Voici les principaux animaux et lieux que nous retrouvons en Bretagne et que nous devons protéger.</p>
+        <p class="hero-subtitle">
+           Voici les principaux animaux et lieux que nous retrouvons en Bretagne et que nous devons protéger.
+        </p>
     </div>
 </div>
 
 <div class="container">
+
     <h2>🌊 Animaux du Littoral</h2>
     <div class="grid">
         <div class="card" onclick="openModal('m-phoque')"><img src="https://www.zoo-rostock.de/files/bilder/tierseiten/seebaer/seebaer-lebensraum-zoo-rostock.jpg"><h3>Phoque</h3></div>
@@ -307,6 +310,7 @@
         <div class="card" onclick="openModal('m-granit')"><img src="https://media.istockphoto.com/id/1096960848/photo/pink-granite-coast-ploumanach-brittany-france.jpg?s=612x612&w=0&k=20&c=Uqthj1h62DfE0m_d4-Rog_dF452EO8GC9i4AdfaSsGw="><h3>Côte de Granit Rose</h3></div>
         <div class="card" onclick="openModal('m-carnac')"><img src="https://c.pxhere.com/photos/6a/9f/carnac_stones_brittany_megalith_megalithic_ancient_bretagne_carnac_france-924594.jpg!d"><h3>Menhirs de Carnac</h3></div>
     </div>
+
 </div>
 
 <div class="modal" id="m-phoque">
@@ -314,15 +318,15 @@
         <div class="modal-header"><h2>🦭 Le Phoque Veau-Marin</h2></div>
         <div class="info-section">
             <h4><span class="tag tag-pres">Présentation</span></h4>
-            <p>Plus petit que le phoque gris, le veau-marin est reconnaissable à sa tête "en forme de cœur" et ses narines en V. En Bretagne, on les trouve principalement en Baie de Somme et en Mer d'Iroise.</p>
+            <p>Plus petit que le phoque gris, le veau-marin est reconnaissable à sa tête "en forme de cœur" et ses narines en V. En Bretagne, on les trouve principalement en Baie de Somme et en Mer d'Iroise. Ils utilisent les bancs de sable à marée basse pour réguler leur température interne et reconstituer leurs réserves d'énergie.</p>
         </div>
         <div class="info-section">
             <h4><span class="tag tag-menace">Menaces</span></h4>
-            <p>Le Dérangement Humain : Chaque fois qu'un humain ou un chien s'approche trop près, le phoque fuit vers l'eau froide.</p>
+            <p><strong>Le Dérangement Humain :</strong> Chaque fois qu'un humain ou un chien s'approche trop près, le phoque fuit vers l'eau froide. Ce choc thermique et cette dépense calorique inutile peuvent être fatals, surtout pour les jeunes.</p>
         </div>
         <div class="info-section">
             <h4><span class="tag tag-action">Préservation</span></h4>
-            <p>Maintenez une distance de sécurité d'au moins 300 mètres.</p>
+            <p>Maintenez une distance de sécurité d'au moins 300 mètres. Utilisez des jumelles pour l'observation. Ne tentez jamais de le remettre à l'eau : s'il est au sec, c'est qu'il en a besoin.</p>
         </div>
         <button class="close-btn" onclick="closeModal()">Fermer</button>
     </div>
@@ -333,15 +337,15 @@
         <div class="modal-header"><h2>🐬 Le Grand Dauphin</h2></div>
         <div class="info-section">
             <h4><span class="tag tag-pres">Présentation</span></h4>
-            <p>Le Grand Dauphin est un prédateur au sommet de la chaîne alimentaire marine. Très social, il vit en communautés complexes.</p>
+            <p>Le Grand Dauphin (*Tursiops truncatus*) est un prédateur au sommet de la chaîne alimentaire marine. Très social, il vit en communautés complexes. En Bretagne, la colonie résidente de l'archipel de Molène est l'une des plus étudiées en Europe.</p>
         </div>
         <div class="info-section">
             <h4><span class="tag tag-menace">Menaces</span></h4>
-            <p>Pollution Sonore : Le bruit des moteurs interfère avec leurs ultrasons.</p>
+            <p><strong>Pollution Sonore :</strong> Le bruit des moteurs et des sonars interfère avec leurs ultrasons, les désorientant ou les empêchant de chasser.</p>
         </div>
         <div class="info-section">
             <h4><span class="tag tag-action">Préservation</span></h4>
-            <p>En bateau, gardez une trajectoire parallèle et une vitesse constante.</p>
+            <p>En bateau, gardez une trajectoire parallèle et une vitesse constante. Ne coupez jamais leur route et n'essayez pas de les toucher : leur peau est extrêmement sensible.</p>
         </div>
         <button class="close-btn" onclick="closeModal()">Fermer</button>
     </div>
@@ -352,11 +356,15 @@
         <div class="modal-header"><h2>🐢 La Tortue Luth</h2></div>
         <div class="info-section">
             <h4><span class="tag tag-pres">Présentation</span></h4>
-            <p>La Tortue Luth peut peser jusqu'à 900 kg. Elle migre vers la Bretagne pour suivre les méduses.</p>
+            <p>Véritable fossile vivant, la Tortue Luth est la seule tortue marine à ne pas posséder de carapace osseuse, mais une peau cuirassée. Elle peut peser jusqu'à 900 kg. Elle migre vers les côtes bretonnes entre juillet et octobre pour suivre les bancs de méduses.</p>
         </div>
         <div class="info-section">
             <h4><span class="tag tag-menace">Menaces</span></h4>
-            <p>Le Danger du Plastique : Un sac plastique ressemble exactement à une méduse pour elle.</p>
+            <p><strong>Le Danger du Plastique :</strong> Pour une tortue, un sac plastique flottant ressemble exactement à une méduse. Une fois ingéré, il bloque le transit intestinal et provoque une mort lente.</p>
+        </div>
+        <div class="info-section">
+            <h4><span class="tag tag-action">Préservation</span></h4>
+            <p>Participez aux nettoyages de plage. Réduisez drastiquement vos déchets plastiques à la source.</p>
         </div>
         <button class="close-btn" onclick="closeModal()">Fermer</button>
     </div>
@@ -366,10 +374,18 @@
     <div class="modal-content">
         <div class="modal-header"><h2>🐦 Le Goéland Argenté</h2></div>
         <div class="info-section">
-            <h4><span class="tag tag-pres">Présentation</span></h4>
-            <p>Opportuniste d'une grande intelligence capable de mémoriser les horaires des marées.</p>
+            <span class="tag tag-pres">Présentation</span>
+            <p>Le Goéland argenté (*Larus argentatus*) est bien plus qu'un simple oiseau de bord de mer ; c'est un opportuniste d'une grande intelligence capable de mémoriser les horaires des marées et les habitudes humaines.</p>
         </div>
-        <button class="close-btn" onclick="closeModal()">Fermer</button>
+        <div class="info-section">
+            <span class="tag tag-menace">Menaces</span>
+            <p>Le principal danger vient de la proximité avec l'homme. L'ingestion de nourriture humaine provoque de graves maladies métaboliques.</p>
+        </div>
+        <div class="info-section">
+            <span class="tag tag-action">Préservation</span>
+            <p>Il est crucial de ne jamais nourrir les goélands. Veillez à utiliser des poubelles fermées.</p>
+        </div>
+        <button class="close-btn" onclick="closeModal()">Fermer la fiche</button>
     </div>
 </div>
 
@@ -378,7 +394,15 @@
         <div class="modal-header"><h2>🦊 Le Renard Roux</h2></div>
         <div class="info-section">
             <h4><span class="tag tag-pres">Présentation</span></h4>
-            <p>Auxiliaire précieux de l'agriculture. Un seul individu consomme jusqu'à 3000 campagnols par an.</p>
+            <p>Le renard est un auxiliaire précieux de l'agriculture. Un seul individu consomme jusqu'à 3000 campagnols par an. C'est un animal opportuniste qui s'adapte aussi bien aux forêts qu'aux jardins.</p>
+        </div>
+        <div class="info-section">
+            <h4><span class="tag tag-menace">Menaces</span></h4>
+            <p><strong>L'empoisonnement indirect :</strong> L'utilisation de raticides empoisonne les rongeurs que le renard mange ensuite.</p>
+        </div>
+        <div class="info-section">
+            <h4><span class="tag tag-action">Préservation</span></h4>
+            <p>Ne le nourrissez jamais. Encouragez les solutions naturelles de dératisation.</p>
         </div>
         <button class="close-btn" onclick="closeModal()">Fermer</button>
     </div>
@@ -388,10 +412,18 @@
     <div class="modal-content">
         <div class="modal-header"><h2>🦌 Le Chevreuil</h2></div>
         <div class="info-section">
-            <h4><span class="tag tag-pres">Présentation</span></h4>
-            <p>Animal de lisière, il affectionne les paysages bretons où alternent forêts et prairies.</p>
+            <span class="tag tag-pres">Présentation</span>
+            <p>Le chevreuil (*Capreolus capreolus*) est le plus petit et le plus gracieux des cervidés d'Europe. Animal de lisière, il affectionne les paysages bretons où alternent forêts et prairies.</p>
         </div>
-        <button class="close-btn" onclick="closeModal()">Fermer</button>
+        <div class="info-section">
+            <span class="tag tag-menace">Menaces</span>
+            <p>La menace numéro un est la fragmentation de son habitat : la multiplication des routes et des clôtures multiplie les risques de collisions.</p>
+        </div>
+        <div class="info-section">
+            <span class="tag tag-action">Préservation</span>
+            <p>En forêt, restez impérativement sur les chemins balisés. Gardez toujours vos chiens en laisse.</p>
+        </div>
+        <button class="close-btn" onclick="closeModal()">Fermer la fiche</button>
     </div>
 </div>
 
@@ -399,10 +431,18 @@
     <div class="modal-content">
         <div class="modal-header"><h2>🐗 Le Sanglier</h2></div>
         <div class="info-section">
-            <h4><span class="tag tag-pres">Présentation</span></h4>
-            <p>Pilier de l'écosystème forestier, il aère la terre et aide à l'enfouissement des graines.</p>
+            <span class="tag tag-pres">Présentation</span>
+            <p>Le sanglier (*Sus scrofa*) est un véritable pilier de l'écosystème forestier. En retournant le sol avec son groin puissant, il aère la terre et aide à l'enfouissement des graines.</p>
         </div>
-        <button class="close-btn" onclick="closeModal()">Fermer</button>
+        <div class="info-section">
+            <span class="tag tag-menace">Menaces</span>
+            <p>Le sanglier souffre de la disparition des grands massifs forestiers, ce qui le pousse à s'aventurer près des habitations.</p>
+        </div>
+        <div class="info-section">
+            <span class="tag tag-action">Préservation</span>
+            <p>Ne laissez jamais de restes alimentaires accessibles. Respectez les zones de forêt sauvage.</p>
+        </div>
+        <button class="close-btn" onclick="closeModal()">Fermer la fiche</button>
     </div>
 </div>
 
@@ -411,7 +451,15 @@
         <div class="modal-header"><h2>🪨 Côte de Granit Rose</h2></div>
         <div class="info-section">
             <h4><span class="tag tag-pres">Présentation</span></h4>
-            <p>Ce chaos granitique doit sa couleur au feldspath rose. Sculpté depuis 300 millions d'années.</p>
+            <p>S'étendant sur 10 km, ce chaos granitique doit sa couleur exceptionnelle au feldspath rose. Sculpté par l'érosion depuis plus de 300 millions d'années.</p>
+        </div>
+        <div class="info-section">
+            <h4><span class="tag tag-menace">Menaces</span></h4>
+            <p><strong>L'Érosion Anthropique :</strong> Le piétinement répété détruit la flore de la lande qui retient normalement la terre.</p>
+        </div>
+        <div class="info-section">
+            <h4><span class="tag tag-action">Préservation</span></h4>
+            <p>Respectez strictement le balisage du GR34. Ne ramassez aucun galet ni morceau de granit.</p>
         </div>
         <button class="close-btn" onclick="closeModal()">Fermer</button>
     </div>
@@ -421,25 +469,39 @@
     <div class="modal-content">
         <div class="modal-header"><h2>🏛️ Alignements de Carnac</h2></div>
         <div class="info-section">
-            <h4><span class="tag tag-pres">Présentation</span></h4>
-            <p>Vieux de plus de 6 000 ans, près de 3 000 menhirs dressés.</p>
+            <span class="tag tag-pres">Présentation</span>
+            <p>Vieux de plus de 6 000 ans, les alignements de Carnac représentent le plus grand ensemble mégalithique au monde avec près de 3 000 menhirs dressés.</p>
         </div>
-        <button class="close-btn" onclick="closeModal()">Fermer</button>
+        <div class="info-section">
+            <span class="tag tag-menace">Menaces</span>
+            <p>Le piétinement tasse le sol et empêche l'herbe de pousser, exposant les fondations des menhirs à l'érosion.</p>
+        </div>
+        <div class="info-section">
+            <span class="tag tag-action">Préservation</span>
+            <p>Respectez les clôtures. Ne touchez jamais les pierres et ne montez pas dessus.</p>
+        </div>
+        <button class="close-btn" onclick="closeModal()">Fermer la fiche</button>
     </div>
 </div>
 
 <footer>
     <div class="footer-grid">
         <div class="footer-section">
-            <div style="font-weight:800; font-size:1.2rem; color:white; margin-bottom:10px;">EcoSignal</div>
-            <p style="font-size:0.8rem;">Plateforme citoyenne pour la surveillance environnementale.</p>
+            <div class="footer-logo" style="font-weight:800; font-size:1.4rem; color:white; margin-bottom:15px; display:flex; align-items:center; gap:12px;">
+                <img src="logo.png" alt="Logo" class="img-logo-circle" style="width:35px; height:35px; border-width:1px;">
+                EcoSignal
+            </div>
+            <p>EcoSignal Bretagne est une plateforme citoyenne pour la surveillance environnementale de notre région.</p>
         </div>
+
         <div class="footer-section">
-            <h4 style="color:white; font-size:1rem;">Contact</h4>
-            <p style="font-size:0.8rem;">✉️ ecosignal.bretagne@gmail.com</p>
+            <h4 style="color:white;">Contact local</h4>
+            <p>✉️ ecosignal.bretagne@gmail.com<br>📍 Saint-Brieuc, Côtes-d'Armor</p>
         </div>
     </div>
-    <div class="copyright">© 2026 EcoSignal Bretagne. Projet étudiant. 🌍🌿</div>
+    <div class="copyright">
+        © 2026 <strong>EcoSignal Bretagne</strong>. Projet étudiant indépendant. 🌍🌿
+    </div>
 </footer>
 
 <script>
