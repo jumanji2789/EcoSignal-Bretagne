@@ -103,30 +103,17 @@
         .footer-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
         .copyright { margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-size: 0.9rem; }
 
-        /* --- RESPONSIVE / VERSION MOBILE --- */
         @media (max-width: 900px) {
             .nav-container { flex-direction: column; gap: 15px; text-align: center; }
             .nav-links { flex-wrap: wrap; justify-content: center; gap: 5px; }
             .nav-link { font-size: 0.8rem; padding: 6px 10px; }
-            
             .hero-header { height: 35vh; }
             .hero-header h1 { font-size: 2.2rem; }
-            
-            .main-layout { 
-                grid-template-columns: 1fr; 
-                margin-top: -30px; 
-                gap: 20px;
-            }
-            
+            .main-layout { grid-template-columns: 1fr; margin-top: -30px; gap: 20px; }
             .action-box { padding: 20px; }
-            
-            .emergency-sidebar { order: -1; } /* Les numéros d'urgence passent au-dessus sur mobile */
-            
+            .emergency-sidebar { order: -1; }
             .post { padding: 15px; }
-            .post-header { margin-bottom: 8px; }
-            
             footer { padding: 40px 15px 20px; }
-            .footer-grid { gap: 20px; }
         }
     </style>
 </head>
@@ -165,11 +152,11 @@
             <textarea id="action-desc" rows="3" placeholder="Description de l'action..."></textarea>
             <p style="font-size: 0.8rem; color: var(--gray); margin: 5px 0;">Preuve photo :</p>
             <input type="file" id="action-photo" accept="image/*">
-            <button class="btn-publier" onclick="publierAction()">Confirmer l'action accomplie</button>
+            <button class="btn-publier" id="btnPublier">Confirmer l'action accomplie</button>
         </div>
 
         <div id="liste-actions"></div>
-        <button id="loadMore" class="btn-voir-plus" onclick="voirPlus()">Voir les messages anciens</button>
+        <button id="loadMore" class="btn-voir-plus">Voir les messages anciens</button>
     </div>
 
     <div class="emergency-sidebar">
@@ -197,152 +184,154 @@
             </div>
             <p>EcoSignal Bretagne est une plateforme citoyenne pour la surveillance environnementale de notre région.</p>
         </div>
-
         <div class="footer-section">
             <h4 style="color:white;">Contact local</h4>
             <p>✉️ ecosignal.bretagne@gmail.com<br>📍 Saint-Brieuc, Côtes-d'Armor</p>
         </div>
-
         <div class="footer-section">
             <h4 style="color:white;">Avertissement</h4>
-            <p>En cas d'urgence immédiate (pollution majeure, animal blessé), contactez les services de secours officiels.</p>
+            <p>En cas d'urgence immédiate contactez les services de secours officiels.</p>
         </div>
     </div>
     <div class="copyright">
         © 2026 <strong>EcoSignal Bretagne</strong>. Projet étudiant indépendant. 🌍🌿
     </div>
 </footer>
-<script>
-    let visibleCount = 3; 
-    let toutLeFil = [];
-    const CODE_ADMIN = "admin123";
 
-    function initForum() {
-        const signalements = JSON.parse(localStorage.getItem('signalements')) || [];
-        const actions = JSON.parse(localStorage.getItem('actions_accomplies')) || [];
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDntwBFb5WY-EV385uOiZOLguoA0tdC-Kw",
+        authDomain: "ecosignal-bretagne-cc7d9.firebaseapp.com",
+        projectId: "ecosignal-bretagne-cc7d9",
+        storageBucket: "ecosignal-bretagne-cc7d9.firebasestorage.app",
+        messagingSenderId: "1050156612369",
+        appId: "1:1050156612369:web:6ada7c625dfafa76ffaab0"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const CODE_ADMIN = "admin123";
+    let visibleCount = 5;
+
+    // Charger les signalements dans le menu déroulant
+    async function chargerSelect() {
         const select = document.getElementById('select-signalement');
-        
         select.innerHTML = '<option value="">-- Sélectionnez le lieu de votre action --</option>';
-        signalements.forEach(s => {
+        
+        // On récupère les signalements (on suppose qu'ils sont aussi dans Firestore maintenant)
+        const q = query(collection(db, "signalements"));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            const s = doc.data();
             const opt = document.createElement('option');
-            opt.value = s.id;
+            opt.value = doc.id;
+            opt.dataset.lieu = s.lieu;
+            opt.dataset.adresse = s.adresse;
             opt.textContent = `📍 ${s.lieu} (${s.type})`;
             select.appendChild(opt);
         });
-
-        toutLeFil = [
-            ...actions.map(a => ({...a, status: 'accompli', origin: 'actions'})),
-            ...signalements.map(s => ({
-                ...s, 
-                status: 'alerte', 
-                origin: 'alertes',
-                message: s.description || "Besoin d'aide sur ce site."
-            }))
-        ];
-
-        renderFil();
     }
 
-    function renderFil() {
+    // Charger le fil d'actualité
+    async function renderFil() {
         const list = document.getElementById('liste-actions');
-        const btnLoadMore = document.getElementById('loadMore');
-        const aAfficher = toutLeFil.slice(0, visibleCount);
-
-        if(toutLeFil.length === 0) {
-            list.innerHTML = '<p style="text-align:center; color:gray; margin-top:40px;">Aucun message pour le moment.</p>';
-            btnLoadMore.style.display = 'none';
+        list.innerHTML = '<p style="text-align:center;">Chargement du forum...</p>';
+        
+        const q = query(collection(db, "posts_forum"), orderBy("timestamp", "desc"), limit(visibleCount));
+        const querySnapshot = await getDocs(q);
+        
+        if (querySnapshot.empty) {
+            list.innerHTML = '<p style="text-align:center; color:gray; margin-top:40px;">Aucune action partagée pour le moment.</p>';
             return;
         }
 
-        list.innerHTML = aAfficher.map((m) => `
-            <div class="post">
-                <div class="post-header">
-                    <span class="badge ${m.status === 'accompli' ? 'badge-done' : 'badge-wait'}">
-                        ${m.status === 'accompli' ? '✅ Action Accomplie' : '⚠️ Alerte en cours'}
-                    </span>
-                    <button class="delete-btn" onclick="supprimerPost('${m.id}', '${m.origin}')" title="Supprimer">🗑️</button>
+        let html = "";
+        querySnapshot.forEach((docSnap) => {
+            const m = docSnap.data();
+            const id = docSnap.id;
+            html += `
+                <div class="post">
+                    <div class="post-header">
+                        <span class="badge ${m.status === 'accompli' ? 'badge-done' : 'badge-wait'}">
+                            ${m.status === 'accompli' ? '✅ Action Accomplie' : '⚠️ Alerte'}
+                        </span>
+                        <button class="delete-btn" data-id="${id}" title="Supprimer">🗑️</button>
+                    </div>
+                    <div style="font-weight:800; font-size:1.1rem; color:var(--primary-dark)">📍 ${m.lieu}</div>
+                    <div style="font-size:0.85rem; color:var(--gray); margin-top:-5px; margin-bottom:10px;">🏠 ${m.adresse}</div>
+                    <div style="margin:10px 0; color:#334155">
+                        <strong>${m.auteur} :</strong> ${m.message}
+                    </div>
+                    ${m.photo ? `<img src="${m.photo}" class="post-img">` : ''}
+                    <div style="font-size:0.75rem; color:gray; margin-top:10px">Posté le ${m.date}</div>
                 </div>
-                <div style="font-weight:800; font-size:1.1rem; color:var(--primary-dark)">📍 ${m.lieu}</div>
-                <div style="font-size:0.85rem; color:var(--gray); margin-top:-5px; margin-bottom:10px;">🏠 ${m.adresse || 'Adresse non spécifiée'}</div>
-                
-                <div style="margin:10px 0; color:#334155">
-                    ${m.status === 'accompli' ? `<strong>${m.auteur} :</strong> ` : ''} ${m.message}
-                </div>
-                ${m.photo ? `<img src="${m.photo}" class="post-img">` : ''}
-                <div style="font-size:0.75rem; color:gray; margin-top:10px">Posté le ${m.date || 'Récemment'}</div>
-            </div>
-        `).join('');
+            `;
+        });
+        list.innerHTML = html;
+        document.getElementById('loadMore').style.display = "block";
 
-        btnLoadMore.style.display = toutLeFil.length > visibleCount ? 'block' : 'none';
+        // Gérer la suppression
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.onclick = async () => {
+                const id = btn.getAttribute('data-id');
+                const saisie = prompt("Code administrateur :");
+                if(saisie === CODE_ADMIN) {
+                    await deleteDoc(doc(db, "posts_forum", id));
+                    renderFil();
+                }
+            };
+        });
     }
 
-    function voirPlus() {
-        visibleCount += 3;
-        renderFil();
-    }
-
-    function supprimerPost(id, origin) {
-        let estConnecte = sessionStorage.getItem('adminSession') === 'true';
-
-        if (!estConnecte) {
-            const saisie = prompt("Entrez le code administrateur :");
-            if (saisie === CODE_ADMIN) {
-                sessionStorage.setItem('adminSession', 'true');
-                estConnecte = true;
-            } else if (saisie !== null) {
-                alert("Code incorrect !");
-                return;
-            } else { return; }
-        }
-
-        if (estConnecte) {
-            if(!confirm("Supprimer définitivement ?")) return;
-
-            if(origin === 'actions') {
-                let act = JSON.parse(localStorage.getItem('actions_accomplies')) || [];
-                localStorage.setItem('actions_accomplies', JSON.stringify(act.filter(a => a.id != id)));
-            } else {
-                let sig = JSON.parse(localStorage.getItem('signalements')) || [];
-                localStorage.setItem('signalements', JSON.stringify(sig.filter(s => s.id != id)));
-            }
-            initForum();
-        }
-    }
-
-    function publierAction() {
+    // Publier une action
+    async function publierAction() {
         const select = document.getElementById('select-signalement');
+        const option = select.options[select.selectedIndex];
         const auteur = document.getElementById('auteur-nom').value;
         const texte = document.getElementById('action-desc').value;
         const photoFile = document.getElementById('action-photo').files[0];
 
         if(!select.value || !auteur || !photoFile) return alert("Champs manquants !");
 
-        let signalements = JSON.parse(localStorage.getItem('signalements')) || [];
-        const source = signalements.find(s => s.id == select.value);
+        const btn = document.getElementById('btnPublier');
+        btn.disabled = true;
+        btn.innerText = "Envoi en cours...";
 
         const reader = new FileReader();
-        reader.onload = function(e) {
-            const nouvelleAction = {
-                id: Date.now().toString(),
-                lieu: source ? source.lieu : "Inconnu",
-                adresse: source ? source.adresse : "Non spécifiée",
-                auteur: auteur,
-                message: texte,
-                photo: e.target.result,
-                date: new Date().toLocaleDateString('fr-FR'),
-                accompli: true
-            };
+        reader.onload = async function(e) {
+            try {
+                await addDoc(collection(db, "posts_forum"), {
+                    lieu: option.dataset.lieu,
+                    adresse: option.dataset.adresse,
+                    auteur: auteur,
+                    message: texte,
+                    photo: e.target.result,
+                    status: 'accompli',
+                    date: new Date().toLocaleDateString('fr-FR'),
+                    timestamp: Date.now()
+                });
+                
+                // Optionnel : Supprimer le signalement de la carte s'il est fini
+                // await deleteDoc(doc(db, "signalements", select.value));
 
-            let actions = JSON.parse(localStorage.getItem('actions_accomplies')) || [];
-            actions.unshift(nouvelleAction);
-            localStorage.setItem('actions_accomplies', JSON.stringify(actions));
-            localStorage.setItem('signalements', JSON.stringify(signalements.filter(s => s.id != select.value)));
-            location.reload();
+                location.reload();
+            } catch (error) {
+                alert("Erreur lors de l'envoi");
+                btn.disabled = false;
+            }
         };
         reader.readAsDataURL(photoFile);
     }
 
-    window.onload = initForum;
+    document.getElementById('btnPublier').onclick = publierAction;
+    document.getElementById('loadMore').onclick = () => { visibleCount += 5; renderFil(); };
+
+    // Lancement
+    chargerSelect();
+    renderFil();
 </script>
 </body>
 </html>
