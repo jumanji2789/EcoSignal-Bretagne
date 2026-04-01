@@ -33,15 +33,10 @@
 
         /* --- HERO HEADER --- */
         .hero-header {
-            height: 60vh;
+            height: 45vh;
             background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), 
                         url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") center/cover no-repeat;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            padding: 0 20px;
+            display: flex; justify-content: center; align-items: center; text-align: center; color: white; padding: 0 20px;
         }
 
         .header-badge {
@@ -58,59 +53,26 @@
             letter-spacing: 1px;
         }
 
-        .hero-content { max-width: 850px; }
-        
-        .hero-title-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
+        .hero-title-wrapper { display: flex; flex-direction: column; align-items: center; gap: 20px; margin-bottom: 20px; }
         .hero-header h1 { 
-            font-size: 3.2rem; 
-            margin: 0; 
-            letter-spacing: -2px; 
-            line-height: 1.1;
+            font-size: 3.2rem; margin: 0; letter-spacing: -2px; line-height: 1.1;
             background: linear-gradient(to bottom, #ffffff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800;
         }
-
-        .hero-logo-img {
-            width: 90px;
-            height: 90px;
-            border: 4px solid rgba(255,255,255,0.2);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .hero-subtitle { 
-            font-size: 1.1rem; 
-            color: #cbd5e1; 
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        .hero-logo-img { width: 90px; height: 90px; border: 4px solid rgba(255,255,255,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .hero-subtitle { font-size: 1.1rem; color: #cbd5e1; max-width: 600px; margin: 0 auto; }
 
         /* --- CONTENU --- */
         .container { max-width: 1000px; margin: -50px auto 30px; padding: 0 20px; position: relative; z-index: 10; }
 
         /* --- FILTRES --- */
         .filtres-box { 
-            background: white; 
-            padding: 20px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
-            margin-bottom: 25px; 
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 12px; 
-            align-items: center;
-            border: 1px solid var(--border);
+            background: white; padding: 20px; border-radius: 20px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 25px; 
+            display: flex; flex-wrap: wrap; gap: 12px; align-items: center; border: 1px solid var(--border);
         }
-        .filtres-box h3 { margin: 0; font-size: 0.9rem; flex-basis: 100%; color: var(--gray-text); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
-        .btn-filtre { padding: 10px 20px; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; transition: 0.3s; opacity: 0.4; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+        .filtres-box h3 { margin: 0; font-size: 0.9rem; flex-basis: 100%; color: var(--gray-text); text-transform: uppercase; margin-bottom: 5px; }
+        .btn-filtre { padding: 10px 20px; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; transition: 0.3s; opacity: 0.5; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
         .btn-filtre.active { opacity: 1; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .dechet { background: #059669; color: white; }
         .pollution { background: #2563eb; color: white; }
@@ -118,58 +80,26 @@
 
         /* --- MAP BOX --- */
         .map-wrapper { 
-            background: white; 
-            padding: 10px; 
-            border-radius: 25px; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
-            border: 1px solid var(--border);
-            overflow: hidden;
+            background: white; padding: 10px; border-radius: 25px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 1px solid var(--border); overflow: hidden;
         }
-        #map { height: 600px; width: 100%; border-radius: 188px; z-index: 1; }
+        #map { height: 600px; width: 100%; border-radius: 15px; z-index: 1; }
 
         .admin-bar { margin-top: 25px; text-align: right; }
         .btn-admin { background: #64748b; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; font-weight: 600; opacity: 0.7; transition: 0.3s; }
         .btn-admin:hover { opacity: 1; }
 
         /* --- FOOTER --- */
-        footer { 
-            background: var(--footer-bg); 
-            color: #f1f5f9; 
-            padding: 60px 20px 30px 20px; 
-            margin-top: 80px; 
-            border-top: 4px solid var(--primary); 
-        }
-        .footer-grid { 
-            max-width: 1000px; 
-            margin: 0 auto; 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-            gap: 40px; 
-        }
+        footer { background: var(--footer-bg); color: #f1f5f9; padding: 60px 20px 30px; margin-top: 80px; border-top: 4px solid var(--primary); }
+        .footer-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
         .footer-logo { display: flex; align-items: center; gap: 12px; font-weight: 800; color: white; font-size: 1.4rem; margin-bottom: 15px; }
-        .footer-section h4 { color: var(--primary); margin-bottom: 15px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
-        .footer-section p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
-        .footer-links { list-style: none; padding: 0; margin: 0; }
-        .footer-links li { margin-bottom: 10px; }
-        .footer-links a { color: #94a3b8; text-decoration: none; transition: 0.3s; }
-        .footer-links a:hover { color: var(--primary); padding-left: 5px; }
+        .footer-section h4 { color: var(--primary); margin-bottom: 15px; font-size: 1.1rem; text-transform: uppercase; }
         .copyright { text-align: center; margin-top: 50px; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; color: #64748b; }
 
-        /* --- ADAPTATION MOBILE --- */
         @media screen and (max-width: 768px) {
-            .nav-container { flex-direction: column; gap: 10px; padding: 10px; }
-            .nav-links { flex-wrap: wrap; justify-content: center; gap: 5px; }
-            .nav-link { padding: 6px 10px; font-size: 0.75rem; }
-            .hero-header { height: 40vh; }
-            .hero-header h1 { font-size: 1.8rem; }
-            .hero-logo-img { width: 60px; height: 60px; }
-            .hero-subtitle { font-size: 0.9rem; }
-            .container { margin-top: -30px; }
-            .filtres-box { padding: 15px; flex-direction: column; align-items: stretch; }
-            .btn-filtre { width: 100%; justify-content: center; }
+            .nav-links { display: none; }
+            .hero-header h1 { font-size: 2rem; }
             #map { height: 400px; }
-            .footer-grid { text-align: center; }
-            .footer-logo { justify-content: center; }
         }
     </style>
 </head>
@@ -261,78 +191,87 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // --- LOGIQUE CARTE ---
-    var map = L.map('map').setView([48.48, -2.75], 8); 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    // --- INITIALISATION CARTE ---
+    // Vue centrée sur la Bretagne
+    var map = L.map('map').setView([48.20, -2.90], 8); 
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
     var markersGroup = L.layerGroup().addTo(map);
 
     var isAdmin = localStorage.getItem("admin") === "true";
     var filtres = { dechet: true, pollution: true, animal: true };
     var allData = [];
 
-    // Fonction de géocodage (inchangée)
+    // Fonction de géocodage
     async function geocode(adresse) {
         try {
-            const res = await fetch("https://nominatim.openstreetmap.org/search?format=json&q=" + encodeURIComponent(adresse));
+            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(adresse)}`);
             const data = await res.json();
             return data.length > 0 ? { lat: data[0].lat, lon: data[0].lon } : null;
         } catch(e) { return null; }
     }
 
-    // Affichage des points
+    // Affichage des points avec suppression intégrée
     async function afficher() {
         markersGroup.clearLayers();
         
         for (const s of allData) {
-            if(!filtres[s.type]) continue;
+            // Filtrage côté interface
+            const typeKey = Object.keys(filtres).find(k => s.type.toLowerCase().includes(k));
+            if(typeKey && !filtres[typeKey]) continue;
             
             const coords = await geocode(s.adresse);
             if(!coords) continue;
 
-            let couleur = "#059669"; 
-            if(s.type === "pollution") couleur = "#2563eb"; 
-            if(s.type === "animal") couleur = "#dc2626"; 
+            let couleur = "#059669"; // dechet
+            if(s.type.includes("pollution")) couleur = "#2563eb"; 
+            if(s.type.includes("animal")) couleur = "#dc2626"; 
 
             const marker = L.circleMarker([coords.lat, coords.lon], { 
-                color: couleur, 
-                radius: 12, 
-                fillOpacity: 0.7, 
-                weight: 3 
-            });
+                color: couleur, radius: 10, fillOpacity: 0.8, weight: 2 
+            }).addTo(markersGroup);
 
-            let popupContent = `
-                <div style="font-family:sans-serif; min-width:150px;">
-                    <h3 style="margin:0;">${s.lieu}</h3>
-                    <div style="margin-top:5px; font-size:0.8rem; font-weight:bold; color:${couleur};">● ${s.type}</div>
-                    <p style="font-size:0.9rem; margin:10px 0;">${s.description}</p>
+            let popupContent = document.createElement('div');
+            popupContent.style.minWidth = "180px";
+            popupContent.innerHTML = `
+                <h3 style="margin:0; font-size:1rem;">${s.lieu}</h3>
+                <div style="margin-top:5px; font-size:0.75rem; font-weight:bold; color:${couleur}; text-transform:uppercase;">● ${s.type}</div>
+                <p style="font-size:0.85rem; margin:8px 0; color:#475569;">${s.description}</p>
+                <small style="color:#94a3b8;">Posté par ${s.nom || 'Anonyme'}</small>
             `;
 
+            // Ajout du bouton de suppression si Mode Admin activé
             if(isAdmin) {
-                // On crée un ID unique pour le bouton de suppression
-                const btnId = `del-${s.id}`;
-                popupContent += `<button id="${btnId}" style="background:#dc2626;color:white;border:none;padding:8px;border-radius:8px;cursor:pointer;width:100%;margin-top:10px;font-weight:bold;">🗑️ Supprimer</button>`;
+                const btnDel = document.createElement('button');
+                btnDel.innerText = "🗑️ Supprimer définitivement";
+                btnDel.style.cssText = "background:#dc2626; color:white; border:none; padding:8px; border-radius:8px; cursor:pointer; width:100%; margin-top:10px; font-weight:bold; font-size:0.8rem;";
                 
-                marker.on('popupopen', () => {
-                    document.getElementById(btnId).onclick = async () => {
-                        if(confirm("Supprimer ce signalement ?")) {
+                btnDel.onclick = async () => {
+                    if(confirm("Voulez-vous vraiment supprimer ce signalement ? Cette action est irréversible.")) {
+                        try {
                             await deleteDoc(doc(db, "signalements", s.id));
+                            alert("Signalement supprimé.");
+                        } catch (err) {
+                            alert("Erreur lors de la suppression.");
                         }
-                    };
-                });
+                    }
+                };
+                popupContent.appendChild(btnDel);
             }
 
-            popupContent += `</div>`;
-            marker.bindPopup(popupContent).addTo(markersGroup);
+            marker.bindPopup(popupContent);
         }
     }
 
-    // Écoute en temps réel de la base de données
+    // Écoute temps réel Firebase
     onSnapshot(collection(db, "signalements"), (snapshot) => {
         allData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         afficher();
     });
 
-    // Gestion des filtres
+    // Gestion des clics sur les filtres
     ['dechet', 'pollution', 'animal'].forEach(type => {
         const btn = document.getElementById(`f-${type}`);
         btn.onclick = (e) => {
@@ -342,21 +281,23 @@
         };
     });
 
-    // Mode Admin
+    // Toggle Mode Admin
     document.getElementById('adminToggle').onclick = () => {
         if(isAdmin) {
             localStorage.removeItem("admin");
-            alert("Mode administration désactivé");
+            alert("Mode visiteur activé.");
+            location.reload();
         } else {
-            const code = prompt("Code admin :");
-            if(code === "admin123") {
+            const pass = prompt("Entrez le code administrateur :");
+            if(pass === "admin123") {
                 localStorage.setItem("admin", "true");
-                alert("Mode administration activé");
+                alert("Mode administration activé ! Vous pouvez maintenant supprimer les points sur la carte.");
+                location.reload();
+            } else {
+                alert("Code incorrect.");
             }
         }
-        location.reload();
     };
-
 </script>
 </body>
 </html>
