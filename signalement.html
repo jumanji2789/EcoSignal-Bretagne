@@ -5,66 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signaler - EcoSignal Bretagne 🌿</title>
     <style>
-        /* --- VARIABLES DE DESIGN --- */
+        /* --- VARIABLES DE DESIGN (Gardées à l'identique) --- */
         :root {
-            --primary: #10b981;    /* Vert Émeraude */
+            --primary: #10b981;
             --success: #059669;
             --dark: #1e293b;
             --light-bg: #f8fafc;
             --border: #e2e8f0;
             --gray-text: #64748b;
-            --footer-bg: #0f172a;  /* Bleu Nuit Moderne */
+            --footer-bg: #0f172a;
         }
 
-        body { 
-            margin: 0; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: var(--light-bg); 
-            color: var(--dark); 
-            line-height: 1.6; 
-        }
-
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--light-bg); color: var(--dark); line-height: 1.6; }
         .img-logo-circle { object-fit: cover; border-radius: 50%; border: 2px solid var(--primary); background: white; }
 
         /* --- NAVIGATION --- */
-        nav { 
-            background: white; 
-            padding: 10px 0; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1001; 
-            border-bottom: 1px solid var(--border); 
-        }
-        .nav-container { 
-            max-width: 1000px; 
-            margin: 0 auto; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 0 20px; 
-        }
-        .nav-logo { 
-            font-size: 1.3rem; 
-            font-weight: 800; 
-            color: var(--primary); 
-            text-decoration: none; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-        }
+        nav { background: white; padding: 10px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1001; border-bottom: 1px solid var(--border); }
+        .nav-container { max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .nav-logo { font-size: 1.3rem; font-weight: 800; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 10px; }
         .nav-links { display: flex; gap: 15px; }
-        .nav-link { 
-            text-decoration: none; 
-            color: var(--dark); 
-            font-weight: 600; 
-            padding: 8px 12px; 
-            border-radius: 8px; 
-            transition: 0.3s; 
-            border: 1px solid var(--border); 
-            background: #f8fafc; 
-            font-size: 0.9rem; 
-        }
+        .nav-link { text-decoration: none; color: var(--dark); font-weight: 600; padding: 8px 12px; border-radius: 8px; transition: 0.3s; border: 1px solid var(--border); background: #f8fafc; font-size: 0.9rem; }
         .nav-link:hover { background: #ecfdf5; color: var(--primary); }
         .nav-link.active { background: var(--primary); color: white; border-color: var(--primary); }
 
@@ -73,176 +33,39 @@
             height: 60vh;
             background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), 
                         url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") center/cover no-repeat;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            padding: 0 20px;
+            display: flex; justify-content: center; align-items: center; text-align: center; color: white; padding: 0 20px;
         }
-
-        .header-badge {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--primary);
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
+        .header-badge { background: rgba(16, 185, 129, 0.2); color: var(--primary); display: inline-block; padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; margin-bottom: 20px; border: 1px solid rgba(16, 185, 129, 0.3); text-transform: uppercase; letter-spacing: 1px; }
         .hero-content { max-width: 850px; }
-        
-        .hero-title-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .hero-header h1 { 
-            font-size: 3.2rem; 
-            margin: 0; 
-            letter-spacing: -2px; 
-            line-height: 1.1;
-            background: linear-gradient(to bottom, #ffffff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-        }
-
-        .hero-logo-img {
-            width: 90px;
-            height: 90px;
-            border: 4px solid rgba(255,255,255,0.2);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .hero-subtitle { 
-            font-size: 1.1rem; 
-            color: #cbd5e1; 
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        .hero-title-wrapper { display: flex; flex-direction: column; align-items: center; gap: 20px; margin-bottom: 20px; }
+        .hero-header h1 { font-size: 3.2rem; margin: 0; letter-spacing: -2px; line-height: 1.1; background: linear-gradient(to bottom, #ffffff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
+        .hero-logo-img { width: 90px; height: 90px; border: 4px solid rgba(255,255,255,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .hero-subtitle { font-size: 1.1rem; color: #cbd5e1; max-width: 600px; margin: 0 auto; }
 
         /* --- FORMULAIRE --- */
-        .container { 
-            max-width: 800px; 
-            margin: -60px auto 30px; 
-            padding: 0 20px; 
-            position: relative;
-            z-index: 10;
-        }
-
-        .action-box { 
-            background: white; 
-            padding: 40px; 
-            border-radius: 25px; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
-            border: 1px solid var(--border); 
-        }
-        
-        .action-box h3 { 
-            margin-top: 0; 
-            color: var(--dark); 
-            font-size: 1.6rem;
-            margin-bottom: 25px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        .container { max-width: 800px; margin: -60px auto 30px; padding: 0 20px; position: relative; z-index: 10; }
+        .action-box { background: white; padding: 40px; border-radius: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 1px solid var(--border); }
+        .action-box h3 { margin-top: 0; color: var(--dark); font-size: 1.6rem; margin-bottom: 25px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
         .form-group { margin-bottom: 20px; }
         label { display: block; font-weight: 700; margin-bottom: 8px; color: var(--gray-text); font-size: 0.9rem; text-transform: uppercase; }
-
-        input, select, textarea { 
-            width: 100%; 
-            padding: 14px; 
-            border: 1px solid #cbd5e1; 
-            border-radius: 12px; 
-            font-size: 1rem; 
-            box-sizing: border-box; 
-            font-family: inherit; 
-            background: #fdfdfd;
-            transition: 0.3s;
-        }
-        
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
-            background: white;
-        }
-
-        .btn-publier { 
-            width: 100%; 
-            padding: 16px; 
-            background: var(--primary); 
-            color: white; 
-            border: none; 
-            border-radius: 12px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            font-size: 1.1rem; 
-            transition: 0.3s; 
-            margin-top: 10px;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
-        }
-        .btn-publier:hover { 
-            background: var(--success); 
-            transform: translateY(-3px); 
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
-        }
+        input, select, textarea { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 1rem; box-sizing: border-box; font-family: inherit; background: #fdfdfd; transition: 0.3s; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); background: white; }
+        .btn-publier { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 1.1rem; transition: 0.3s; margin-top: 10px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+        .btn-publier:hover { background: var(--success); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3); }
+        .btn-publier:disabled { background: #94a3b8; cursor: not-allowed; transform: none; }
 
         /* --- FOOTER --- */
-        footer { 
-            background: var(--footer-bg); 
-            color: #f1f5f9; 
-            padding: 60px 20px 30px 20px; 
-            margin-top: 80px; 
-            border-top: 4px solid var(--primary); 
-        }
-        .footer-grid { 
-            max-width: 1000px; 
-            margin: 0 auto; 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-            gap: 40px; 
-        }
+        footer { background: var(--footer-bg); color: #f1f5f9; padding: 60px 20px 30px; margin-top: 80px; border-top: 4px solid var(--primary); }
+        .footer-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
         .footer-logo { display: flex; align-items: center; gap: 12px; font-weight: 800; color: white; font-size: 1.4rem; margin-bottom: 15px; }
         .footer-section h4 { color: var(--primary); margin-bottom: 15px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
         .footer-section p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
-        .footer-links { list-style: none; padding: 0; margin: 0; }
-        .footer-links li { margin-bottom: 10px; }
-        .footer-links a { color: #94a3b8; text-decoration: none; transition: 0.3s; }
-        .footer-links a:hover { color: var(--primary); padding-left: 5px; }
         .copyright { text-align: center; margin-top: 50px; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; color: #64748b; }
 
-        /* --- ADAPTATION MOBILE --- */
         @media screen and (max-width: 768px) {
-            .nav-container { flex-direction: column; gap: 10px; padding: 10px; }
-            .nav-links { flex-wrap: wrap; justify-content: center; gap: 5px; }
-            .nav-link { padding: 6px 10px; font-size: 0.75rem; }
-
-            .hero-header { height: 45vh; }
+            .nav-links { display: none; }
             .hero-header h1 { font-size: 1.8rem; }
-            .hero-logo-img { width: 60px; height: 60px; }
-            .hero-subtitle { font-size: 0.9rem; }
-
-            .container { margin-top: -30px; padding: 0 15px; }
             .action-box { padding: 25px 20px; }
-            .action-box h3 { font-size: 1.2rem; }
-
-            input, select, textarea { font-size: 16px; /* Évite le zoom automatique sur iOS */ }
-            
-            .footer-grid { text-align: center; }
-            .footer-logo { justify-content: center; }
         }
     </style>
 </head>
@@ -272,12 +95,9 @@
             <img src="logo.png" alt="Logo" class="img-logo-circle hero-logo-img">
             <h1>Faire un signalement</h1>
         </div>
-        <p class="hero-subtitle">
-            Remplissez ce formulaire pour alerter la communauté.
-        </p>
+        <p class="hero-subtitle">Remplissez ce formulaire pour alerter la communauté.</p>
     </div>
 </div>
-
 
 <div class="container">
     <div class="action-box">
@@ -312,28 +132,26 @@
             <textarea id="description" rows="4" placeholder="Décris précisément ce que tu as vu..."></textarea>
         </div>
 
-        <button class="btn-publier" onclick="envoyerTout()">🚀 Envoyer</button>
+        <button class="btn-publier" id="btnEnvoyer">🚀 Envoyer</button>
     </div>
 </div>
 
 <footer>
     <div class="footer-grid">
         <div class="footer-section">
-            <div class="footer-logo" style="font-weight:800; font-size:1.4rem; color:white; margin-bottom:15px; display:flex; align-items:center; gap:12px;">
+            <div class="footer-logo">
                 <img src="logo.png" alt="Logo" class="img-logo-circle" style="width:35px; height:35px; border-width:1px;">
                 EcoSignal
             </div>
             <p>EcoSignal Bretagne est une plateforme citoyenne pour la surveillance environnementale de notre région.</p>
         </div>
-
         <div class="footer-section">
             <h4 style="color:white;">Contact local</h4>
             <p>✉️ ecosignal.bretagne@gmail.com<br>📍 Saint-Brieuc, Côtes-d'Armor</p>
         </div>
-
         <div class="footer-section">
             <h4 style="color:white;">Avertissement</h4>
-            <p>En cas d'urgence immédiate (pollution majeure, animal blessé), contactez les services de secours officiels.</p>
+            <p>En cas d'urgence immédiate, contactez les services de secours officiels.</p>
         </div>
     </div>
     <div class="copyright">
@@ -341,50 +159,62 @@
     </div>
 </footer>
 
-<script>
-function envoyerTout() {
-    const nom = document.getElementById("nom").value;
-    const type = document.getElementById("type").value;
-    const lieu = document.getElementById("lieu").value;
-    const adresse = document.getElementById("adresse").value;
-    const desc = document.getElementById("description").value;
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    if(!nom || !lieu || !adresse) {
-        alert("Oups ! N'oublie pas de remplir ton nom, le lieu et l'adresse.");
-        return;
-    }
-
-    const idUnique = Date.now(); 
-
-    const nouveauSignalement = {
-        id: idUnique,
-        nom: nom,
-        type: type,
-        lieu: lieu,
-        adresse: adresse,
-        description: desc
+    const firebaseConfig = {
+        apiKey: "AIzaSyDntwBFb5WY-EV385uOiZOLguoA0tdC-Kw",
+        authDomain: "ecosignal-bretagne-cc7d9.firebaseapp.com",
+        projectId: "ecosignal-bretagne-cc7d9",
+        storageBucket: "ecosignal-bretagne-cc7d9.firebasestorage.app",
+        messagingSenderId: "1050156612369",
+        appId: "1:1050156612369:web:6ada7c625dfafa76ffaab0"
     };
 
-    const nouveauMessage = {
-        idSignalement: idUnique,
-        type: type, 
-        auteur: nom,
-        message: desc,
-        date: new Date().toLocaleDateString('fr-FR'),
-        lieuSauvegarde: `📍 [${type.toUpperCase()}] ${lieu}`
-    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    let signalements = JSON.parse(localStorage.getItem("signalements")) || [];
-    signalements.push(nouveauSignalement);
-    localStorage.setItem("signalements", JSON.stringify(signalements));
+    const btn = document.getElementById('btnEnvoyer');
 
-    let forumMessages = JSON.parse(localStorage.getItem("forumMessages")) || [];
-    forumMessages.unshift(nouveauMessage);
-    localStorage.setItem("forumMessages", JSON.stringify(forumMessages));
+    btn.addEventListener('click', async () => {
+        const nom = document.getElementById("nom").value;
+        const type = document.getElementById("type").value;
+        const lieu = document.getElementById("lieu").value;
+        const adresse = document.getElementById("adresse").value;
+        const desc = document.getElementById("description").value;
 
-    alert("✅ C'est fait ! Ton signalement est sur la carte et le forum.");
-    window.location.href = "carte.html";
-}
+        if(!nom || !lieu || !adresse) {
+            alert("Oups ! N'oublie pas de remplir ton nom, le lieu et l'adresse.");
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerText = "Envoi en cours...";
+
+        const nouveauSignalement = {
+            nom: nom,
+            type: type,
+            lieu: lieu,
+            adresse: adresse,
+            description: desc,
+            date: new Date().toLocaleDateString('fr-FR'),
+            timestamp: Date.now()
+        };
+
+        try {
+            // Envoi à la collection "signalements" (pour la carte et le forum)
+            await addDoc(collection(db, "signalements"), nouveauSignalement);
+            
+            alert("✅ C'est fait ! Ton signalement est enregistré.");
+            window.location.href = "carte.html";
+        } catch (error) {
+            console.error("Erreur Firebase:", error);
+            alert("❌ Erreur lors de l'envoi. Utilise bien 'Live Server' sur VS Code !");
+            btn.disabled = false;
+            btn.innerText = "🚀 Envoyer";
+        }
+    });
 </script>
 
 </body>
