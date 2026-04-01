@@ -185,32 +185,36 @@
         const desc = document.getElementById("description").value;
 
         if(!nom || !lieu || !adresse) {
-            alert("Oups ! N'oublie pas de remplir ton nom, le lieu et l'adresse.");
+            alert("Oups ! Remplis tous les champs.");
             return;
         }
 
         btn.disabled = true;
         btn.innerText = "Envoi en cours...";
 
-        const nouveauSignalement = {
-            nom: nom,
-            type: type,
-            lieu: lieu,
-            adresse: adresse,
-            description: desc,
-            date: new Date().toLocaleDateString('fr-FR'),
-            timestamp: Date.now()
-        };
+        const dateJour = new Date().toLocaleDateString('fr-FR');
+        const temps = Date.now();
 
         try {
-            // Envoi à la collection "signalements" (pour la carte et le forum)
-            await addDoc(collection(db, "signalements"), nouveauSignalement);
-            
-            alert("✅ C'est fait ! Ton signalement est enregistré.");
+            // 1. Envoi vers la collection CARTE
+            await addDoc(collection(db, "signalements"), {
+                nom, type, lieu, adresse, description: desc, date: dateJour, timestamp: temps
+            });
+
+            // 2. Envoi vers la collection FORUM (automatique)
+            await addDoc(collection(db, "forum"), {
+                auteur: nom,
+                titre: `📢 Alerte : ${type.toUpperCase()} à ${lieu}`,
+                message: desc,
+                date: dateJour,
+                timestamp: temps
+            });
+
+            alert("✅ Signalement publié sur la Carte et le Forum !");
             window.location.href = "carte.html";
         } catch (error) {
-            console.error("Erreur Firebase:", error);
-            alert("❌ Erreur lors de l'envoi. Utilise bien 'Live Server' sur VS Code !");
+            console.error(error);
+            alert("Erreur de connexion. Vérifie Live Server.");
             btn.disabled = false;
             btn.innerText = "🚀 Envoyer";
         }
