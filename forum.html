@@ -74,11 +74,11 @@
         .badge-done { background: #dcfce7; color: #166534; }
         
         .delete-btn { 
-            background: #fee2e2; border: none; cursor: pointer; font-size: 1rem; 
-            padding: 5px 10px; border-radius: 8px; color: var(--danger); 
-            transition: 0.3s; opacity: 0.5;
+            background: #fee2e2; border: none; cursor: pointer; font-size: 0.9rem; 
+            padding: 8px 12px; border-radius: 8px; color: var(--danger); 
+            transition: 0.3s; font-weight: bold;
         }
-        .delete-btn:hover { opacity: 1; transform: scale(1.1); background: #fecaca; }
+        .delete-btn:hover { background: #fecaca; }
 
         .post-img { width: 100%; border-radius: 15px; margin-top: 15px; max-height: 400px; object-fit: cover; border: 1px solid var(--border); }
 
@@ -104,16 +104,10 @@
         .copyright { margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-size: 0.9rem; }
 
         @media (max-width: 900px) {
-            .nav-container { flex-direction: column; gap: 15px; text-align: center; }
-            .nav-links { flex-wrap: wrap; justify-content: center; gap: 5px; }
-            .nav-link { font-size: 0.8rem; padding: 6px 10px; }
-            .hero-header { height: 35vh; }
+            .nav-links { display: none; }
             .hero-header h1 { font-size: 2.2rem; }
-            .main-layout { grid-template-columns: 1fr; margin-top: -30px; gap: 20px; }
-            .action-box { padding: 20px; }
+            .main-layout { grid-template-columns: 1fr; margin-top: -30px; }
             .emergency-sidebar { order: -1; }
-            .post { padding: 15px; }
-            footer { padding: 40px 15px 20px; }
         }
     </style>
 </head>
@@ -147,16 +141,18 @@
     <div class="forum-area">
         <div class="action-box">
             <h3 style="margin:0 0 10px 0">✅ Valider une action effectuée</h3>
-            <select id="select-signalement"></select>
+            <select id="select-signalement">
+                <option value="">Chargement des lieux...</option>
+            </select>
             <input type="text" id="auteur-nom" placeholder="Votre nom / Prénom">
-            <textarea id="action-desc" rows="3" placeholder="Description de l'action..."></textarea>
-            <p style="font-size: 0.8rem; color: var(--gray); margin: 5px 0;">Preuve photo :</p>
+            <textarea id="action-desc" rows="3" placeholder="Description de l'action réalisée..."></textarea>
+            <p style="font-size: 0.8rem; color: var(--gray); margin: 5px 0;">Preuve photo (obligatoire) :</p>
             <input type="file" id="action-photo" accept="image/*">
             <button class="btn-publier" id="btnPublier">Confirmer l'action accomplie</button>
         </div>
 
         <div id="liste-actions"></div>
-        <button id="loadMore" class="btn-voir-plus">Voir les messages anciens</button>
+        <button id="loadMore" class="btn-voir-plus">Voir plus de messages</button>
     </div>
 
     <div class="emergency-sidebar">
@@ -200,7 +196,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, onSnapshot, query, orderBy, limit, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDntwBFb5WY-EV385uOiZOLguoA0tdC-Kw",
@@ -213,52 +209,47 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const CODE_ADMIN = "admin123";
-    let visibleCount = 5;
+    let visibleLimit = 5;
 
-    // Charger les signalements dans le menu déroulant
-    async function chargerSelect() {
+    // 1. Charger les lieux de signalements dans le select
+    async function chargerSignalements() {
         const select = document.getElementById('select-signalement');
-        select.innerHTML = '<option value="">-- Sélectionnez le lieu de votre action --</option>';
-        
-        // On récupère les signalements (on suppose qu'ils sont aussi dans Firestore maintenant)
-        const q = query(collection(db, "signalements"));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            const s = doc.data();
-            const opt = document.createElement('option');
-            opt.value = doc.id;
-            opt.dataset.lieu = s.lieu;
-            opt.dataset.adresse = s.adresse;
-            opt.textContent = `📍 ${s.lieu} (${s.type})`;
-            select.appendChild(opt);
+        onSnapshot(collection(db, "signalements"), (snapshot) => {
+            select.innerHTML = '<option value="">-- Sélectionnez le lieu de votre action --</option>';
+            snapshot.forEach((doc) => {
+                const s = doc.data();
+                const opt = document.createElement('option');
+                opt.value = doc.id;
+                opt.dataset.lieu = s.lieu;
+                opt.dataset.adresse = s.adresse;
+                opt.textContent = `📍 ${s.lieu} (${s.type})`;
+                select.appendChild(opt);
+            });
         });
     }
 
-    // Charger le fil d'actualité
-    async function renderFil() {
-        const list = document.getElementById('liste-actions');
-        list.innerHTML = '<p style="text-align:center;">Chargement du forum...</p>';
+    // 2. Afficher les actions du forum en temps réel
+    function renderForum() {
+        const q = query(collection(db, "posts_forum"), orderBy("timestamp", "desc"), limit(visibleLimit));
         
-        const q = query(collection(db, "posts_forum"), orderBy("timestamp", "desc"), limit(visibleCount));
-        const querySnapshot = await getDocs(q);
-        
-        if (querySnapshot.empty) {
-            list.innerHTML = '<p style="text-align:center; color:gray; margin-top:40px;">Aucune action partagée pour le moment.</p>';
-            return;
-        }
+        onSnapshot(q, (snapshot) => {
+            const list = document.getElementById('liste-actions');
+            list.innerHTML = "";
+            
+            if (snapshot.empty) {
+                list.innerHTML = '<p style="text-align:center; color:gray; margin-top:40px;">Aucune action partagée pour le moment.</p>';
+                return;
+            }
 
-        let html = "";
-        querySnapshot.forEach((docSnap) => {
-            const m = docSnap.data();
-            const id = docSnap.id;
-            html += `
-                <div class="post">
+            snapshot.forEach((docSnap) => {
+                const m = docSnap.data();
+                const id = docSnap.id;
+                const post = document.createElement('div');
+                post.className = "post";
+                post.innerHTML = `
                     <div class="post-header">
-                        <span class="badge ${m.status === 'accompli' ? 'badge-done' : 'badge-wait'}">
-                            ${m.status === 'accompli' ? '✅ Action Accomplie' : '⚠️ Alerte'}
-                        </span>
-                        <button class="delete-btn" data-id="${id}" title="Supprimer">🗑️</button>
+                        <span class="badge badge-done">✅ Action Accomplie</span>
+                        <button class="delete-btn" onclick="supprimerPost('${id}')">🗑️ Supprimer</button>
                     </div>
                     <div style="font-weight:800; font-size:1.1rem; color:var(--primary-dark)">📍 ${m.lieu}</div>
                     <div style="font-size:0.85rem; color:var(--gray); margin-top:-5px; margin-bottom:10px;">🏠 ${m.adresse}</div>
@@ -267,71 +258,79 @@
                     </div>
                     ${m.photo ? `<img src="${m.photo}" class="post-img">` : ''}
                     <div style="font-size:0.75rem; color:gray; margin-top:10px">Posté le ${m.date}</div>
-                </div>
-            `;
-        });
-        list.innerHTML = html;
-        document.getElementById('loadMore').style.display = "block";
-
-        // Gérer la suppression
-        document.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.onclick = async () => {
-                const id = btn.getAttribute('data-id');
-                const saisie = prompt("Code administrateur :");
-                if(saisie === CODE_ADMIN) {
-                    await deleteDoc(doc(db, "posts_forum", id));
-                    renderFil();
-                }
-            };
+                `;
+                list.appendChild(post);
+            });
+            document.getElementById('loadMore').style.display = "block";
         });
     }
 
-    // Publier une action
-    async function publierAction() {
+    // 3. Fonction de suppression (accessible globalement)
+    window.supprimerPost = async (id) => {
+        const pass = prompt("Code administrateur requis pour supprimer :");
+        if(pass === "admin123") {
+            try {
+                await deleteDoc(doc(db, "posts_forum", id));
+                alert("Message supprimé.");
+            } catch (e) { alert("Erreur."); }
+        } else if (pass !== null) {
+            alert("Code incorrect.");
+        }
+    };
+
+    // 4. Publier une nouvelle action accomplie
+    document.getElementById('btnPublier').onclick = async () => {
         const select = document.getElementById('select-signalement');
         const option = select.options[select.selectedIndex];
         const auteur = document.getElementById('auteur-nom').value;
         const texte = document.getElementById('action-desc').value;
         const photoFile = document.getElementById('action-photo').files[0];
 
-        if(!select.value || !auteur || !photoFile) return alert("Champs manquants !");
+        if(!select.value || !auteur || !photoFile) {
+            alert("Merci de remplir tous les champs et d'ajouter une photo !");
+            return;
+        }
 
         const btn = document.getElementById('btnPublier');
         btn.disabled = true;
-        btn.innerText = "Envoi en cours...";
+        btn.innerText = "Publication...";
 
         const reader = new FileReader();
-        reader.onload = async function(e) {
+        reader.onload = async (e) => {
             try {
                 await addDoc(collection(db, "posts_forum"), {
                     lieu: option.dataset.lieu,
                     adresse: option.dataset.adresse,
                     auteur: auteur,
                     message: texte,
-                    photo: e.target.result,
-                    status: 'accompli',
+                    photo: e.target.result, // Image en Base64
                     date: new Date().toLocaleDateString('fr-FR'),
                     timestamp: Date.now()
                 });
-                
-                // Optionnel : Supprimer le signalement de la carte s'il est fini
-                // await deleteDoc(doc(db, "signalements", select.value));
 
-                location.reload();
+                // Réinitialiser le formulaire
+                document.getElementById('auteur-nom').value = "";
+                document.getElementById('action-desc').value = "";
+                document.getElementById('action-photo').value = "";
+                btn.disabled = false;
+                btn.innerText = "Confirmer l'action accomplie";
+                alert("Bravo pour votre action ! Elle est publiée.");
             } catch (error) {
-                alert("Erreur lors de l'envoi");
+                alert("Erreur lors de l'envoi.");
                 btn.disabled = false;
             }
         };
         reader.readAsDataURL(photoFile);
-    }
+    };
 
-    document.getElementById('btnPublier').onclick = publierAction;
-    document.getElementById('loadMore').onclick = () => { visibleCount += 5; renderFil(); };
+    document.getElementById('loadMore').onclick = () => {
+        visibleLimit += 5;
+        renderForum();
+    };
 
     // Lancement
-    chargerSelect();
-    renderFil();
+    chargerSignalements();
+    renderForum();
 </script>
 </body>
 </html>
