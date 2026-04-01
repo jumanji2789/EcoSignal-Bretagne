@@ -125,7 +125,7 @@
             border: 1px solid var(--border);
             overflow: hidden;
         }
-        #map { height: 600px; width: 100%; border-radius: 18px; z-index: 1; }
+        #map { height: 600px; width: 100%; border-radius: 188px; z-index: 1; }
 
         .admin-bar { margin-top: 25px; text-align: right; }
         .btn-admin { background: #64748b; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; font-weight: 600; opacity: 0.7; transition: 0.3s; }
@@ -160,18 +160,14 @@
             .nav-container { flex-direction: column; gap: 10px; padding: 10px; }
             .nav-links { flex-wrap: wrap; justify-content: center; gap: 5px; }
             .nav-link { padding: 6px 10px; font-size: 0.75rem; }
-            
             .hero-header { height: 40vh; }
             .hero-header h1 { font-size: 1.8rem; }
             .hero-logo-img { width: 60px; height: 60px; }
             .hero-subtitle { font-size: 0.9rem; }
-            
             .container { margin-top: -30px; }
             .filtres-box { padding: 15px; flex-direction: column; align-items: stretch; }
             .btn-filtre { width: 100%; justify-content: center; }
-            
-            #map { height: 400px; } /* Carte plus petite pour faciliter le défilement de la page */
-            
+            #map { height: 400px; }
             .footer-grid { text-align: center; }
             .footer-logo { justify-content: center; }
         }
@@ -203,18 +199,16 @@
             <img src="logo.png" alt="Logo" class="img-logo-circle hero-logo-img">
             <h1>Carte des Signalements</h1>
         </div>
-        <p class="hero-subtitle">
-            Explorez les points d'alerte identifiés par la communauté.
-        </p>
+        <p class="hero-subtitle">Explorez les points d'alerte identifiés par la communauté.</p>
     </div>
 </div>
 
 <div class="container">
     <div class="filtres-box">
         <h3>Filtrer par type d'alerte :</h3>
-        <button class="btn-filtre dechet active" onclick="toggle('dechet', event)">🗑️ Déchets</button>
-        <button class="btn-filtre pollution active" onclick="toggle('pollution', event)">🌊 Pollution</button>
-        <button class="btn-filtre animal active" onclick="toggle('animal', event)">🐾 Animaux</button>
+        <button id="f-dechet" class="btn-filtre dechet active">🗑️ Déchets</button>
+        <button id="f-pollution" class="btn-filtre pollution active">🌊 Pollution</button>
+        <button id="f-animal" class="btn-filtre animal active">🐾 Animaux</button>
     </div>
 
     <div class="map-wrapper">
@@ -222,28 +216,26 @@
     </div>
 
     <div class="admin-bar">
-        <button class="btn-admin" onclick="logout()">🚪 Mode administration</button>
+        <button class="btn-admin" id="adminToggle">🚪 Mode administration</button>
     </div>
 </div>
 
 <footer>
     <div class="footer-grid">
         <div class="footer-section">
-            <div class="footer-logo" style="font-weight:800; font-size:1.4rem; color:white; margin-bottom:15px; display:flex; align-items:center; gap:12px;">
+            <div class="footer-logo">
                 <img src="logo.png" alt="Logo" class="img-logo-circle" style="width:35px; height:35px; border-width:1px;">
                 EcoSignal
             </div>
             <p>EcoSignal Bretagne est une plateforme citoyenne pour la surveillance environnementale de notre région.</p>
         </div>
-
         <div class="footer-section">
             <h4 style="color:white;">Contact local</h4>
             <p>✉️ ecosignal.bretagne@gmail.com<br>📍 Saint-Brieuc, Côtes-d'Armor</p>
         </div>
-
         <div class="footer-section">
             <h4 style="color:white;">Avertissement</h4>
-            <p>En cas d'urgence immédiate (pollution majeure, animal blessé), contactez les services de secours officiels.</p>
+            <p>En cas d'urgence immédiate contactez les services de secours officiels.</p>
         </div>
     </div>
     <div class="copyright">
@@ -252,71 +244,119 @@
 </footer>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script>
-// --- LOGIQUE CARTE ---
-var map = L.map('map').setView([48.48, -2.75], 11); 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-var markers = [];
 
-var admin = localStorage.getItem("admin") === "true";
-function logout(){
-    localStorage.removeItem("admin");
-    location.reload();
-}
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, onSnapshot, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-var filtres = { dechet: true, pollution: true, animal: true };
+    const firebaseConfig = {
+        apiKey: "AIzaSyDntwBFb5WY-EV385uOiZOLguoA0tdC-Kw",
+        authDomain: "ecosignal-bretagne-cc7d9.firebaseapp.com",
+        projectId: "ecosignal-bretagne-cc7d9",
+        storageBucket: "ecosignal-bretagne-cc7d9.firebasestorage.app",
+        messagingSenderId: "1050156612369",
+        appId: "1:1050156612369:web:6ada7c625dfafa76ffaab0"
+    };
 
-function toggle(type, event){
-    filtres[type] = !filtres[type];
-    event.currentTarget.classList.toggle("active");
-    afficher();
-}
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-function supprimerSignalement(idUnique) {
-    if(!admin) return;
-    if(confirm("Supprimer définitivement ce signalement ?")) {
-        var signalements = JSON.parse(localStorage.getItem("signalements")) || [];
-        var nouveauxSignalements = signalements.filter(s => s.id !== idUnique);
-        localStorage.setItem("signalements", JSON.stringify(nouveauxSignalements));
-        afficher();
+    // --- LOGIQUE CARTE ---
+    var map = L.map('map').setView([48.48, -2.75], 8); 
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    var markersGroup = L.layerGroup().addTo(map);
+
+    var isAdmin = localStorage.getItem("admin") === "true";
+    var filtres = { dechet: true, pollution: true, animal: true };
+    var allData = [];
+
+    // Fonction de géocodage (inchangée)
+    async function geocode(adresse) {
+        try {
+            const res = await fetch("https://nominatim.openstreetmap.org/search?format=json&q=" + encodeURIComponent(adresse));
+            const data = await res.json();
+            return data.length > 0 ? { lat: data[0].lat, lon: data[0].lon } : null;
+        } catch(e) { return null; }
     }
-}
 
-function geocode(adresse, callback){
-    fetch("https://nominatim.openstreetmap.org/search?format=json&q=" + encodeURIComponent(adresse))
-    .then(res => res.json())
-    .then(data => { if(data.length > 0) callback(data[0].lat, data[0].lon); });
-}
+    // Affichage des points
+    async function afficher() {
+        markersGroup.clearLayers();
+        
+        for (const s of allData) {
+            if(!filtres[s.type]) continue;
+            
+            const coords = await geocode(s.adresse);
+            if(!coords) continue;
 
-function afficher(){
-    markers.forEach(m => map.removeLayer(m));
-    markers = [];
-    var data = JSON.parse(localStorage.getItem("signalements")) || [];
-
-    data.forEach(function(s){
-        if(!filtres[s.type]) return;
-        geocode(s.adresse, function(lat, lng){
-            var couleur = "#059669"; 
+            let couleur = "#059669"; 
             if(s.type === "pollution") couleur = "#2563eb"; 
             if(s.type === "animal") couleur = "#dc2626"; 
 
-            var btn = admin ? `<button onclick="supprimerSignalement(${s.id})" style="background:#dc2626;color:white;border:none;padding:8px;border-radius:8px;cursor:pointer;width:100%;margin-top:10px;font-weight:bold;">🗑️ Supprimer</button>` : "";
+            const marker = L.circleMarker([coords.lat, coords.lon], { 
+                color: couleur, 
+                radius: 12, 
+                fillOpacity: 0.7, 
+                weight: 3 
+            });
 
-            var marker = L.circleMarker([lat, lng], { color: couleur, radius: 12, fillOpacity: 0.7, weight: 3 }).addTo(map);
-            marker.bindPopup(`
+            let popupContent = `
                 <div style="font-family:sans-serif; min-width:150px;">
                     <h3 style="margin:0;">${s.lieu}</h3>
                     <div style="margin-top:5px; font-size:0.8rem; font-weight:bold; color:${couleur};">● ${s.type}</div>
                     <p style="font-size:0.9rem; margin:10px 0;">${s.description}</p>
-                    ${btn}
-                </div>
-            `);
-            markers.push(marker);
-        });
-    });
-}
+            `;
 
-afficher();
+            if(isAdmin) {
+                // On crée un ID unique pour le bouton de suppression
+                const btnId = `del-${s.id}`;
+                popupContent += `<button id="${btnId}" style="background:#dc2626;color:white;border:none;padding:8px;border-radius:8px;cursor:pointer;width:100%;margin-top:10px;font-weight:bold;">🗑️ Supprimer</button>`;
+                
+                marker.on('popupopen', () => {
+                    document.getElementById(btnId).onclick = async () => {
+                        if(confirm("Supprimer ce signalement ?")) {
+                            await deleteDoc(doc(db, "signalements", s.id));
+                        }
+                    };
+                });
+            }
+
+            popupContent += `</div>`;
+            marker.bindPopup(popupContent).addTo(markersGroup);
+        }
+    }
+
+    // Écoute en temps réel de la base de données
+    onSnapshot(collection(db, "signalements"), (snapshot) => {
+        allData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        afficher();
+    });
+
+    // Gestion des filtres
+    ['dechet', 'pollution', 'animal'].forEach(type => {
+        const btn = document.getElementById(`f-${type}`);
+        btn.onclick = (e) => {
+            filtres[type] = !filtres[type];
+            e.currentTarget.classList.toggle("active");
+            afficher();
+        };
+    });
+
+    // Mode Admin
+    document.getElementById('adminToggle').onclick = () => {
+        if(isAdmin) {
+            localStorage.removeItem("admin");
+            alert("Mode administration désactivé");
+        } else {
+            const code = prompt("Code admin :");
+            if(code === "admin123") {
+                localStorage.setItem("admin", "true");
+                alert("Mode administration activé");
+            }
+        }
+        location.reload();
+    };
+
 </script>
 </body>
 </html>
