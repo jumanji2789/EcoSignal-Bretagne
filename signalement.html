@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signaler - EcoSignal Bretagne 🌿</title>
     <style>
-        /* --- VARIABLES DE DESIGN (Gardées à l'identique) --- */
+        /* --- VARIABLES DE DESIGN --- */
         :root {
             --primary: #10b981;
             --success: #059669;
@@ -62,8 +62,16 @@
         .footer-section p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
         .copyright { text-align: center; margin-top: 50px; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; color: #64748b; }
 
+        /* --- MODIFICATION POUR AFFICHAGE MOBILE --- */
         @media screen and (max-width: 768px) {
-            .nav-links { display: none; }
+            .nav-container { flex-direction: column; gap: 15px; }
+            .nav-links { 
+                display: flex; 
+                flex-wrap: wrap; 
+                justify-content: center; 
+                gap: 8px; 
+            }
+            .nav-link { font-size: 0.75rem; padding: 6px 10px; }
             .hero-header h1 { font-size: 1.8rem; }
             .action-box { padding: 25px 20px; }
         }
@@ -78,9 +86,9 @@
             EcoSignal Bretagne
         </a>
          <div class="nav-links">
-            <a href="index.html" class="nav-link active">Accueil</a>
+            <a href="index.html" class="nav-link">Accueil</a>
             <a href="carte.html" class="nav-link">Carte</a>
-            <a href="signalement.html" class="nav-link">Signalement</a>
+            <a href="signalement.html" class="nav-link active">Signalement</a>
             <a href="sensibilisation.html" class="nav-link">Sensibilisation</a>
             <a href="forum.html" class="nav-link">Forum</a>
             <a href="Moi et mon projet.html" class="nav-link">Moi et mon projet</a>
@@ -196,25 +204,15 @@
         const temps = Date.now();
 
         try {
-            // 1. Envoi vers la collection CARTE
             await addDoc(collection(db, "signalements"), {
                 nom, type, lieu, adresse, description: desc, date: dateJour, timestamp: temps
             });
 
-            // 2. Envoi vers la collection FORUM (automatique)
-            await addDoc(collection(db, "forum"), {
-                auteur: nom,
-                titre: `📢 Alerte : ${type.toUpperCase()} à ${lieu}`,
-                message: desc,
-                date: dateJour,
-                timestamp: temps
-            });
-
-            alert("✅ Signalement publié sur la Carte et le Forum !");
+            alert("✅ Signalement publié sur la Carte !");
             window.location.href = "carte.html";
         } catch (error) {
             console.error(error);
-            alert("Erreur de connexion. Vérifie Live Server.");
+            alert("Erreur de connexion.");
             btn.disabled = false;
             btn.innerText = "🚀 Envoyer";
         }
