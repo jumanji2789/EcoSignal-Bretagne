@@ -96,8 +96,16 @@
         .footer-section h4 { color: var(--primary); margin-bottom: 15px; font-size: 1.1rem; text-transform: uppercase; }
         .copyright { text-align: center; margin-top: 50px; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; color: #64748b; }
 
+        /* --- MODIFICATION POUR AFFICHAGE MOBILE --- */
         @media screen and (max-width: 768px) {
-            .nav-links { display: none; }
+            .nav-container { flex-direction: column; gap: 15px; }
+            .nav-links { 
+                display: flex; 
+                flex-wrap: wrap; 
+                justify-content: center; 
+                gap: 8px; 
+            }
+            .nav-link { font-size: 0.75rem; padding: 6px 10px; }
             .hero-header h1 { font-size: 2rem; }
             #map { height: 400px; }
         }
@@ -192,7 +200,6 @@
     const db = getFirestore(app);
 
     // --- INITIALISATION CARTE ---
-    // Vue centrée sur la Bretagne
     var map = L.map('map').setView([48.20, -2.90], 8); 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors'
@@ -204,7 +211,6 @@
     var filtres = { dechet: true, pollution: true, animal: true };
     var allData = [];
 
-    // Fonction de géocodage
     async function geocode(adresse) {
         try {
             const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(adresse)}`);
@@ -213,19 +219,16 @@
         } catch(e) { return null; }
     }
 
-    // Affichage des points avec suppression intégrée
     async function afficher() {
         markersGroup.clearLayers();
-        
         for (const s of allData) {
-            // Filtrage côté interface
             const typeKey = Object.keys(filtres).find(k => s.type.toLowerCase().includes(k));
             if(typeKey && !filtres[typeKey]) continue;
             
             const coords = await geocode(s.adresse);
             if(!coords) continue;
 
-            let couleur = "#059669"; // dechet
+            let couleur = "#059669";
             if(s.type.includes("pollution")) couleur = "#2563eb"; 
             if(s.type.includes("animal")) couleur = "#dc2626"; 
 
@@ -242,14 +245,13 @@
                 <small style="color:#94a3b8;">Posté par ${s.nom || 'Anonyme'}</small>
             `;
 
-            // Ajout du bouton de suppression si Mode Admin activé
             if(isAdmin) {
                 const btnDel = document.createElement('button');
                 btnDel.innerText = "🗑️ Supprimer définitivement";
                 btnDel.style.cssText = "background:#dc2626; color:white; border:none; padding:8px; border-radius:8px; cursor:pointer; width:100%; margin-top:10px; font-weight:bold; font-size:0.8rem;";
                 
                 btnDel.onclick = async () => {
-                    if(confirm("Voulez-vous vraiment supprimer ce signalement ? Cette action est irréversible.")) {
+                    if(confirm("Voulez-vous vraiment supprimer ce signalement ?")) {
                         try {
                             await deleteDoc(doc(db, "signalements", s.id));
                             alert("Signalement supprimé.");
@@ -260,18 +262,15 @@
                 };
                 popupContent.appendChild(btnDel);
             }
-
             marker.bindPopup(popupContent);
         }
     }
 
-    // Écoute temps réel Firebase
     onSnapshot(collection(db, "signalements"), (snapshot) => {
         allData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         afficher();
     });
 
-    // Gestion des clics sur les filtres
     ['dechet', 'pollution', 'animal'].forEach(type => {
         const btn = document.getElementById(`f-${type}`);
         btn.onclick = (e) => {
@@ -281,7 +280,6 @@
         };
     });
 
-    // Toggle Mode Admin
     document.getElementById('adminToggle').onclick = () => {
         if(isAdmin) {
             localStorage.removeItem("admin");
@@ -291,7 +289,7 @@
             const pass = prompt("Entrez le code administrateur :");
             if(pass === "admin123") {
                 localStorage.setItem("admin", "true");
-                alert("Mode administration activé ! Vous pouvez maintenant supprimer les points sur la carte.");
+                alert("Mode administration activé !");
                 location.reload();
             } else {
                 alert("Code incorrect.");
