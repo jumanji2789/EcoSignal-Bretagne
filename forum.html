@@ -70,7 +70,6 @@
         .post { background: white; padding: 25px; border-radius: 20px; margin-top: 25px; border: 1px solid var(--border); position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
         .post-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .badge { padding: 5px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
-        .badge-wait { background: #fef3c7; color: #92400e; }
         .badge-done { background: #dcfce7; color: #166534; }
         
         .delete-btn { 
@@ -103,8 +102,16 @@
         .footer-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
         .copyright { margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-size: 0.9rem; }
 
+        /* --- CORRECTION AFFICHAGE MOBILE --- */
         @media (max-width: 900px) {
-            .nav-links { display: none; }
+            .nav-container { flex-direction: column; gap: 15px; }
+            .nav-links { 
+                display: flex; 
+                flex-wrap: wrap; 
+                justify-content: center; 
+                gap: 8px; 
+            }
+            .nav-link { font-size: 0.75rem; padding: 6px 10px; }
             .hero-header h1 { font-size: 2.2rem; }
             .main-layout { grid-template-columns: 1fr; margin-top: -30px; }
             .emergency-sidebar { order: -1; }
@@ -211,7 +218,6 @@
     const db = getFirestore(app);
     let visibleLimit = 5;
 
-    // 1. Charger les lieux de signalements dans le select
     async function chargerSignalements() {
         const select = document.getElementById('select-signalement');
         onSnapshot(collection(db, "signalements"), (snapshot) => {
@@ -228,19 +234,15 @@
         });
     }
 
-    // 2. Afficher les actions du forum en temps réel
     function renderForum() {
         const q = query(collection(db, "posts_forum"), orderBy("timestamp", "desc"), limit(visibleLimit));
-        
         onSnapshot(q, (snapshot) => {
             const list = document.getElementById('liste-actions');
             list.innerHTML = "";
-            
             if (snapshot.empty) {
                 list.innerHTML = '<p style="text-align:center; color:gray; margin-top:40px;">Aucune action partagée pour le moment.</p>';
                 return;
             }
-
             snapshot.forEach((docSnap) => {
                 const m = docSnap.data();
                 const id = docSnap.id;
@@ -265,7 +267,6 @@
         });
     }
 
-    // 3. Fonction de suppression (accessible globalement)
     window.supprimerPost = async (id) => {
         const pass = prompt("Code administrateur requis pour supprimer :");
         if(pass === "admin123") {
@@ -278,7 +279,6 @@
         }
     };
 
-    // 4. Publier une nouvelle action accomplie
     document.getElementById('btnPublier').onclick = async () => {
         const select = document.getElementById('select-signalement');
         const option = select.options[select.selectedIndex];
@@ -303,12 +303,10 @@
                     adresse: option.dataset.adresse,
                     auteur: auteur,
                     message: texte,
-                    photo: e.target.result, // Image en Base64
+                    photo: e.target.result,
                     date: new Date().toLocaleDateString('fr-FR'),
                     timestamp: Date.now()
                 });
-
-                // Réinitialiser le formulaire
                 document.getElementById('auteur-nom').value = "";
                 document.getElementById('action-desc').value = "";
                 document.getElementById('action-photo').value = "";
@@ -328,7 +326,6 @@
         renderForum();
     };
 
-    // Lancement
     chargerSignalements();
     renderForum();
 </script>
