@@ -103,7 +103,7 @@
         .copyright { margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-size: 0.9rem; }
 
         /* --- CORRECTION AFFICHAGE MOBILE --- */
-        @media (max-width: 900px) {
+         @media screen and (max-width: 768px) {
             .nav-container { flex-direction: column; gap: 15px; }
             .nav-links { 
                 display: flex; 
@@ -112,9 +112,8 @@
                 gap: 8px; 
             }
             .nav-link { font-size: 0.75rem; padding: 6px 10px; }
-            .hero-header h1 { font-size: 2.2rem; }
-            .main-layout { grid-template-columns: 1fr; margin-top: -30px; }
-            .emergency-sidebar { order: -1; }
+            .hero-header h1 { font-size: 1.8rem; }
+            .action-box { padding: 25px 20px; }
         }
     </style>
 </head>
