@@ -35,14 +35,14 @@
         /* --- HERO HEADER --- */
         .hero-header {
             height: 45vh;
-            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), 
+            background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), 
                         url("https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80") center/cover;
             display: flex; align-items: center; justify-content: center; text-align: center; color: white;
         }
         .hero-header h1 { 
             font-size: 3.5rem; margin: 15px 0 0; font-weight: 800;
-            background: linear-gradient(to bottom, #ffffff, #cbd5e1);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            color: #ffffff;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
 
         /* --- MAIN LAYOUT --- */
@@ -102,18 +102,24 @@
         .footer-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
         .copyright { margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-size: 0.9rem; }
 
-        /* --- CORRECTION AFFICHAGE MOBILE --- */
-         @media screen and (max-width: 768px) {
-            .nav-container { flex-direction: column; gap: 15px; }
-            .nav-links { 
-                display: flex; 
-                flex-wrap: wrap; 
-                justify-content: center; 
-                gap: 8px; 
+        /* --- ADAPTATION MOBILE (BOULEVERSEMENT) --- */
+        @media screen and (max-width: 900px) {
+            .main-layout {
+                grid-template-columns: 1fr; /* Passage en une seule colonne */
+                margin-top: -40px;
             }
-            .nav-link { font-size: 0.75rem; padding: 6px 10px; }
-            .hero-header h1 { font-size: 1.8rem; }
-            .action-box { padding: 25px 20px; }
+            .emergency-sidebar {
+                order: 2; /* Place les urgences après le fil d'actualité */
+            }
+            .hero-header h1 { font-size: 2.2rem; color: #ffffff !important; }
+            .hero-header { height: 35vh; }
+        }
+
+        @media screen and (max-width: 600px) {
+            .nav-container { flex-direction: column; gap: 10px; }
+            .nav-links { flex-wrap: wrap; justify-content: center; }
+            .nav-link { font-size: 0.8rem; padding: 5px 10px; }
+            .action-box { padding: 20px; border-radius: 15px; }
         }
     </style>
 </head>
